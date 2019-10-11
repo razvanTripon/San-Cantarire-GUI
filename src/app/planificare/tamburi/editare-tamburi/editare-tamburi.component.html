@@ -1,0 +1,69 @@
+<ng-template #contentModal let-modal>
+  <div class="modal-header" ngbAutofocus>
+    <h4 class="modal-title">
+      {{editMode==true ? 'Editare tambur' :'Adaugare tambur'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formOperare" (ngSubmit)="onSubmit()">
+      <input formControlName="UID" type="hidden">
+      <input formControlName="PARENT" type="hidden">
+      <input formControlName="NR_PLAN" type="hidden">
+      <input formControlName="POZITIE_BOBINA" type="hidden">
+      <input formControlName="COD_PRODUS" type="hidden">
+      <input formControlName="CLIENT" type="hidden">
+      <input formControlName="NR_COMANDA" type="hidden">
+      <input formControlName="CANT_PLANIFICAT" type="hidden">
+      <input formControlName="TIP" type="hidden">
+      <input formControlName="DATA_PLAN" type="hidden">
+      <input formControlName="DENUMIRE" type="hidden">
+      <div class="form-group">
+        <div class="input-group mb-2 input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Pozitie tambur</span>
+          </div>
+          <input type="number" formControlName="POZITIE_TAMBUR"  class="form-control">
+        </div>
+        <small *ngIf="formOperare.get('POZITIE_TAMBUR').invalid" class="text-danger"> Pozitia tamburului este
+          obligatorie </small>
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Sortiment</span>
+          </div>
+          <ng-template #rt let-r="result" let-t="term">
+            <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+          </ng-template>
+          <input 
+              #inputSortiment
+              formControlName="COD_SORTIMENT" 
+              onfocus="this.select()" 
+              [ngClass]="{'is-invalid': (formOperare.get('COD_SORTIMENT').invalid && formOperare.get('COD_SORTIMENT').touched) || (formOperare.get('COD_SORTIMENT').invalid && submit)}"
+              class="form-control rounded" 
+              [ngbTypeahead]="searchSortiment"
+              placeholder="Selectati sortimentul" 
+              (selectItem)="onselectSortiment($event)"
+              [editable]="false" 
+              [inputFormatter]="typeAheadService.formatter"
+              [resultTemplate]="rt"
+          >
+          <div class="input-group-prepend">
+              <button class="btn btn-default btn-outline-light" type="button" (click)="onAdvanceSearch(inputSortiment.value)"> <i class="fa fa-search text-success" aria-hidden="true"></i> </button>
+              <button class="btn btn-default btn-outline-light" type="button"  (click)="onAddSortiment()"><i class="fa fa-plus text-primary" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <small *ngIf="(formOperare.get('COD_SORTIMENT').invalid && formOperare.get('COD_SORTIMENT').touched) || (formOperare.get('COD_SORTIMENT').invalid && submit)"
+          class="text-danger"> Sortimentul este obligatoriu </small>
+        <div class="input-group">
+          <small class="form-text text-muted">{{labelSortiment}}</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+        <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"  aria-hidden="true"></i> Cancel</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<router-outlet></router-outlet>

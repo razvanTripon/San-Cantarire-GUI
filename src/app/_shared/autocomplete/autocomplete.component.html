@@ -1,0 +1,18 @@
+  <ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <input 
+    #inp
+    onfocus="this.select()"
+    [ngClass]="{'is-invalid':!checkClassValid()}"
+    class="form-control"
+    style="height: calc(1.3em + .5rem + 2px);"
+    placeholder="{{placeHolder}}"
+    [editable]="false"
+    [inputFormatter]="formatter" 
+    [resultTemplate]="rt"
+    [ngbTypeahead]="search"
+    (selectItem)="onselect($event)"
+    (focus)="touchedField()"
+    >

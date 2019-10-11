@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light  py-0 py-sm-0 ">
+  <a class="navbar-brand ">Planuri </a>
+  <button class="navbar-toggler d-lg-none" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto mt-lg-0 mt-0">
+      <li class="nav-item py-0">
+        <a class="nav-link" (click)="onAdd()"><i class="fa fa-plus text-success"></i> Adauga</a>
+      </li>
+      <li class="nav-item py-0">
+        <a class="nav-link" (click)="onEdit()"><i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+          Editeaza</a>
+      </li>
+      <li class="nav-item py-0">
+        <a class="nav-link" (click)="onDelete()"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i> Sterge</a>
+      </li>
+    </ul>
+    <form class="form-inline my-0 my-lg-0" [formGroup]="formFiltrare" (ngSubmit)="onFilter()">
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Data initiala</span>
+        </div>
+        <input (click)="data_ini.toggle()" formControlName="data_ini" type="button" class="form-control" ngbDatepicker #data_ini="ngbDatepicker"
+          (dateSelect)="dateIniSelect()">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="data_ini.toggle()" type="button">
+            <i class="fa fa-calendar"></i></button>
+        </div>
+      </div>
+      <div class="input-group input-group-sm ml-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input #statusDataFin type="checkbox" (click)="toggleDataFin()"> Data finala
+          </div>
+        </div>
+        <input (click)="data_fin.toggle()" formControlName="data_fin" type="button" [minDate]="minDate" class="form-control" ngbDatepicker
+          #data_fin="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="data_fin.toggle()" type="button">
+            <i class="fa fa-calendar"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success btn-sm ml-1">OK</button>
+    </form>
+    <div class="nav-item py-0 dropdown mr-0">
+      <a class="nav-link dropdown-toggle text-primary" appDropDown #r="appDropDown">
+        <i class="fa fa-cogs" aria-hidden="true"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" [ngClass]="{show: r.isOpen}">
+        <a class="dropdown-item py-0" (click)="onExportCSV()">Export CSV</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- <a href="https://example.com" target="_blank" rel="noopener" >test</a>  -->

@@ -1,0 +1,16 @@
+  <ag-grid-angular
+    #agGrid 
+    [rowDragManaged]="true"
+    [animateRows]="true"
+    style="width:99%; height: 170px;" 
+    class="ag-theme-balham"
+    [rowData]="rowData | async"
+    [columnDefs]="columnDefs" 
+    rowSelection="single" 
+    (rowSelected)="onRowSelected()" 
+    (rowDataChanged)="onRowDataChanged()"
+    (filterChanged)="onFilterChanged()"
+    (selectionChanged)="onSelectionChanged()"
+    (rowDragEnd)="onRowDragEnd()" 
+    (gridReady)="onGridReady()">
+  </ag-grid-angular>

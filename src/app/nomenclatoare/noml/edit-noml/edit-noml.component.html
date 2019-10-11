@@ -1,0 +1,111 @@
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{editMode==true ? 'Editare comanda/activitate '+configDialog["cod"] :'Adaugare comanda/activitate'}} </h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formNoml" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <div class="form-group row mb-2">
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">COD</span>
+        </div>
+        <input ngbAutofocus formControlName="COD" class="form-control"
+          [ngClass]="{'is-invalid':formNoml.get('COD').invalid &&  (formNoml.get('COD').touched || submit)}">
+      </div>
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Denumire</span>
+        </div>
+        <input formControlName="NUME" class="form-control"
+          [ngClass]="{'is-invalid':formNoml.get('NUME').invalid &&  (formNoml.get('NUME').touched || submit)}">
+      </div>
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Group</span>
+        </div>
+        <input #parField formControlName="PAR" class="form-control">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-default btn-outline-light" (click)="searchParinte(parField.value)"><i class="fa fa-search text-success"
+              aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-default btn-outline-light" (click)="deleteParinte()"><i class="fa fa-remove text-danger"
+              aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <small *ngIf="formNoml.get('COD').invalid &&  (formNoml.get('COD').touched || submit) "
+          class="text-danger form-text"> Campul COD activitate/lucrare este obligatoriu </small>
+      </div>
+      <div class="col-6">
+        <small *ngIf="formNoml.get('NUME').invalid && (formNoml.get('NUME').touched ||submit)"
+          class="text-danger form-text"> Campul DENUMIRE este obligatoriu </small>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">DATA LANSARII</span>
+        </div>
+        <input formControlName="DATA_LAN" class="form-control" ngbDatepicker #dl="ngbDatepicker" type="button"
+          (click)="dl.toggle()">
+        <div class="input-group-append" style="margin-left: 1px;">
+          <button class="btn btn-default btn-outline-light" (click)="dl.toggle()" type="button"><i
+              class="fa fa-calendar text-info" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">DATA FINALIZARII</span>
+        </div>
+        <input formControlName="DATA_INCH" class="form-control" ngbDatepicker #df="ngbDatepicker" type="button"
+          (click)="df.toggle()">
+        <div class="input-group-append" style="margin-left: 1px;">
+          <button class="btn btn-default btn-outline-light" (click)="df.toggle()" type="button"><i
+              class="fa fa-calendar text-info" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="input-group input-group-sm mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">PARTENER</span>
+      </div>
+      <!-- <input formControlName="PARTENER" type="text" class="form-control" placeholder="Introduceti partenerul"> -->
+      <!-- <app-autocomplete style="width:25%;" formControlName="PARTENER" [url]="'/api/autocomplete/nomf'"
+          [mandatory]="false" [placeHolder]="'Selectati partenerul'" (getlabel)="labelPartener=$event">
+        </app-autocomplete> -->
+      <input #inputPartener formControlName="PARTENER" onfocus="this.select()" class="form-control rounded"
+        [ngbTypeahead]="searchClient" placeholder="Selectati clientul" (selectItem)="onselectClient($event)"
+        [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt"
+        [ngClass]="{'is-invalid':formNoml.get('PARTENER').invalid &&  (formNoml.get('PARTENER').touched || submit)}"
+        >
+      <div class="input-group-prepend">
+        <button class="btn btn-default btn-outline-light" type="button"
+          (click)="onAdvanceSearchClient(inputPartener.value)"> <i class="fa fa-search text-success"
+            aria-hidden="true"></i> </button>
+      </div>
+    </div>
+    <small *ngIf="formNoml.get('PARTENER').invalid && (formNoml.get('PARTENER').touched ||submit)"
+    class="text-danger form-text"> Campul PARTENER este obligatoriu </small>
+
+    <small class="form-text text-muted ml-2">{{labelPartener}}</small>
+    <div class="input-group input-group-sm mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">OBSERVATII</span>
+      </div>
+      <input formControlName="OBS" type="text" class="form-control" placeholder="Alte observatii">
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+      <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"
+          aria-hidden="true"></i> Cancel</button>
+    </div>
+  </form>
+</div>

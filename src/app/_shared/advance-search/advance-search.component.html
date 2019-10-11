@@ -1,0 +1,33 @@
+<div class="modal-header" >
+  <h4 class="modal-title">{{ configDialog.title }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formSearch" (ngSubmit)="onSearch()">
+    <div class="form-group row mb-2">
+      <div class="col-12 input-group input-group-sm">
+        <input ngbAutofocus onfocus="this.select()" class="form-control" formControlName="search" placeholder="{{configDialog.placeholderSearch}}">
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-success" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Cautare</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ag-grid-angular 
+    [ngStyle]="{'width':'100%','height':configDialog.gridSize}" 
+    class="ag-theme-balham"
+    [rowData]="rowsDataGrid | async" 
+    [columnDefs]="configDialog.coldef" 
+    rowSelection="single"
+    (rowDataChanged)="onRowDataChanged($event)" 
+    (filterChanged)="onFilterChanged($event)"
+    (selectionChanged)="onSelectionChanged($event)" 
+    (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-primary" (click)="accept()" [disabled]="disabledOk" ><i class="fa fa-check" aria-hidden="true"></i> OK</button>
+  <button type="button" class="btn btn-outline-danger" (click)="decline()"><i class="fa fa-ban"  aria-hidden="true"></i> Cancel</button>
+</div>

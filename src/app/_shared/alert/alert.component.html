@@ -1,0 +1,7 @@
+<div class="container poz {{alertObj.size}} ">
+  <div class="row" *ngFor="let alert of alerts">
+    <div class="col align-self-end">
+      <ngb-alert [type]="alert.type" (close)="onClose(alert)">{{ alert.message}}</ngb-alert>
+    </div>
+  </div>
+</div>

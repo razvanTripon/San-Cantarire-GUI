@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light py-1 py-sm-1 " style="padding-left: 4px;">
+    <div class="form-inline my-0 my-lg-0">
+        <form [formGroup]="formDetalii">
+            <div class="form-group row" style="padding-left: 15px;">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Tambur#</span>
+                    </div>
+                    <input formControlName="TAMBUR" class="form-control input-sm" type="number" style="width: 90px;">
+                </div>
+                <div class="input-group input-group-sm pl-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Lungime hartie</span>
+                    </div>
+                    <input formControlName="LUNGIME" class="form-control input-sm" type="number" style="width: 90px;">
+                </div>
+                <div class="input-group input-group-sm pl-2 pr-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Diametru</span>
+                    </div>
+                    <input formControlName="DIAMETRU" class="form-control input-sm" type="number" style="width: 90px;">
+                </div>
+            </div>
+        </form>
+        <!-- <ul class="navbar-nav mr-auto mt-lg-0 mt-0">
+            <li class="nav-item py-0">
+                <a class="nav-link" (click)="onEdit()"><i class="fa fa-plus text-success"></i> Cantarire manuala</a>
+            </li>
+        </ul> -->
+        <ng-toggle (valueChange)="cantarireAutomata($event)" onColor="{{switchCantarire.onColor}}"
+            offColor="{{switchCantarire.offColor}}" [disabled]="switchCantarire.disabled" [size]="switchCantarire.size"
+            [value]="switchCantarire.value">
+            <ng-template ngToggleLabel forLabel="on"><span style="width: 125px;">Cantarire auto. On</span>
+            </ng-template>
+            <ng-template ngToggleLabel forLabel="off"><span style="width: 125px;">Cantarire auto. Off</span>
+            </ng-template>
+
+        </ng-toggle>
+        <ng-toggle (valueChange)="listareAutomata($event)" onColor="{{switchListare.onColor}}"
+            offColor="{{switchListare.offColor}}" [disabled]="switchListare.disabled" [size]="switchListare.size"
+            [value]="switchListare.value">
+            <ng-template ngToggleLabel forLabel="on"><span style="width: 125px;">Listare auto. On</span>
+            </ng-template>
+            <ng-template ngToggleLabel forLabel="off"><span style="width: 125px;">Listare auto. Off</span>
+            </ng-template>
+        </ng-toggle>
+        <div *ngIf="this.showAlert" class="badge-danger p-1 ml-3" role="alert">
+            Atentie cantitate
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-sm navbar-light bg-light py-1 py-sm-1 " style="padding-left: 4px; padding-top: 2px;">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto mt-lg-0 mt-0">
+            <li class="nav-item py-0">
+                <a class="nav-link" [ngClass]="{'disabled':menuDisabled}" (click)="onAdd()"><i
+                        class="fa fa-plus text-success"></i> Cantarire manuala</a>
+            </li>
+            <li class="nav-item py-0">
+                <a class="nav-link" [ngClass]="{'disabled':menuDisabled}" (click)="onEdit()">
+                    <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+                    Editeaza
+                </a>
+            </li>
+            <li class="nav-item py-0">
+                <a class="nav-link" [ngClass]="{'disabled':menuDisabled}" (click)="onDelete()">
+                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                    Sterge
+                </a>
+            </li>
+            <li class="nav-item py-0">
+                <a class="nav-link" [ngClass]="{'disabled':false}" (click)="onPrintEticheta()">
+                    <i class="fa fa-print text-success" aria-hidden="true"></i>
+                    Listeaza eticheta
+                </a>
+            </li>
+            <li class="nav-item py-0">
+                <a class="nav-link" [ngClass]="{'disabled':false}" (click)="onViewEticheta()">
+                    <i class="fa fa-cloud-download text-info" aria-hidden="true"></i>
+                    Vizualizeaza eticheta
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav> 
+<ag-grid-angular [rowDragManaged]="true" style="padding-left:4px; width:99%; height: 220px;" class="ag-theme-balham"
+    [rowData]="rowData | async" [columnDefs]="columnDefs" rowSelection="single" (rowDataChanged)="onRowDataChanged()"
+    (selectionChanged)="onSelectionChanged()" (gridReady)="onGridReady($event)">
+</ag-grid-angular>

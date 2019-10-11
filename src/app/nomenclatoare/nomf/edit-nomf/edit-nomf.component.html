@@ -1,0 +1,415 @@
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header" ngbAutofocus>
+  <h4 class="modal-title">
+    {{editMode==true ? 'Editare partener '+this.configDialog["cod"] :'Adaugare partener'}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formNomf" (ngSubmit)="onSubmit()">
+    <div class="form-group row mb-2">
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">COD</span>
+        </div>
+        <input formControlName="COD" class="form-control"
+          [ngClass]="{'is-invalid':formNomf.get('COD').invalid &&  (formNomf.get('COD').touched || submit)}">
+      </div>
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Inreg TVA</span>
+        </div>
+        <select formControlName="TIP" class="form-control form-control-sm">
+          <option value="PLATITOARE">Societate platitoare de TVA</option>
+          <option value="">Societate neplatitoare de TVA</option>
+        </select>
+      </div>
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Parinte</span>
+        </div>
+        <input #parField formControlName="PAR" class="form-control" >
+        <div class="input-group-append">
+          <button type="button" class="btn btn-default btn-outline-light"
+            (click)="onAdvanceSearchPartener(parField.value)">
+            <i class="fa fa-search text-success" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-default btn-outline-light" (click)="deletePar()">
+            <i class="fa fa-remove text-danger" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="formNomf.get('COD').invalid &&  (formNomf.get('COD').touched || submit) " class="form-group row mb-2">
+      <small class="text-danger form-text col-6"> Campul COD este obligatoriu </small>
+    </div>
+    <div class="input-group input-group-sm mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Nume</span>
+      </div>
+      <input formControlName="NUME" type="text" class="form-control" placeholder="Nume partener"
+        [ngClass]="{'is-invalid':formNomf.get('NUME').invalid && (formNomf.get('NUME').touched || submit)}">
+    </div>
+    <small *ngIf="formNomf.get('NUME').invalid && (formNomf.get('NUME').touched ||submit)"
+      class="text-danger form-text"> Campul NUME este obligatoriu </small>
+
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Reg. Com</span>
+        </div>
+        <input formControlName="ORC" class="form-control">
+      </div>
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Tara</span>
+        </div>
+        <select formControlName="TARA" class="form-control">
+          <option value="RO" selected="selected">Romania</option>
+          <option value="AT">Austria</option>
+          <option value="BE">Belgia</option>
+          <option value="BG">Bulgaria</option>
+          <option value="CZ">Cehia</option>
+          <option value="CY">Cipru</option>
+          <option value="HR">Croatia</option>
+          <option value="DK">Danemarca</option>
+          <option value="EE">Estonia</option>
+          <option value="FI">Finlanda</option>
+          <option value="FR">Franta</option>
+          <option value="DE">Germania</option>
+          <option value="EL">Grecia</option>
+          <option value="IE">Irlanda</option>
+          <option value="IT">Italia</option>
+          <option value="LV">Letonia</option>
+          <option value="LT">Lituania</option>
+          <option value="LU">Luxemburg</option>
+          <option value="MT">Malta</option>
+          <option value="GB">Marea Britanie</option>
+          <option value="NL">Olanda</option>
+          <option value="PL">Polonia</option>
+          <option value="PT">Portugalia</option>
+          <option value="SK">Slovacia</option>
+          <option value="SI">Slovenia</option>
+          <option value="ES">Spania</option>
+          <option value="SE">Suedia</option>
+          <option value="HU">Ungaria</option>
+          <option value="AF">Afganistan</option>
+          <option value="ZA">Africa de Sud</option>
+          <option value="AL">Albania</option>
+          <option value="DZ">Algeria</option>
+          <option value="AD">Andorra</option>
+          <option value="AO">Angola</option>
+          <option value="AI">Anguilla</option>
+          <option value="AQ">Antarctica</option>
+          <option value="AG">Antigua si Barbuda</option>
+          <option value="AN">Antilele Olandeze</option>
+          <option value="SA">Arabia Saudita</option>
+          <option value="AR">Argentina</option>
+          <option value="AM">Armenia</option>
+          <option value="AW">Aruba</option>
+          <option value="AU">Australia</option>
+          <option value="AZ">Azerbaidjan</option>
+          <option value="BS">Bahamas</option>
+          <option value="BH">Bahrein</option>
+          <option value="BD">Bangladesh</option>
+          <option value="BB">Barbados</option>
+          <option value="BY">Belarus</option>
+          <option value="BZ">Belize</option>
+          <option value="BJ">Benin</option>
+          <option value="BM">Bermude</option>
+          <option value="BO">Bolivia</option>
+          <option value="BA">Bosnia si Hertegovina</option>
+          <option value="BW">Botswana</option>
+          <option value="BV">Bouvet</option>
+          <option value="BR">Brazilia</option>
+          <option value="BN">Brunei Darussalam</option>
+          <option value="BF">Burkina Faso</option>
+          <option value="BI">Burundi</option>
+          <option value="BT">Buthan</option>
+          <option value="KH">Cambodgia</option>
+          <option value="CM">Camerun</option>
+          <option value="CA">Canada</option>
+          <option value="CV">Capul Verde</option>
+          <option value="KY">Cayman</option>
+          <option value="CF">Centrafricana</option>
+          <option value="CL">Chile</option>
+          <option value="CN">China</option>
+          <option value="CX">Christmas</option>
+          <option value="TD">Ciad</option>
+          <option value="CI">Coasta de Fildes</option>
+          <option value="CC">Cocos</option>
+          <option value="CO">Columbia</option>
+          <option value="KM">Comore</option>
+          <option value="CD">Congo</option>
+          <option value="CG">Congo</option>
+          <option value="CK">Cook Insulele</option>
+          <option value="KP">Coreea de Nord</option>
+          <option value="KR">Coreea de Sud</option>
+          <option value="CR">Costa Rica</option>
+          <option value="CU">Cuba</option>
+          <option value="DJ">Djibouti</option>
+          <option value="DM">Dominica</option>
+          <option value="DO">Dominicana</option>
+          <option value="EC">Ecuador</option>
+          <option value="EG">Egipt</option>
+          <option value="CH">Elvetia</option>
+          <option value="AE">Emiratele Arabe Unite</option>
+          <option value="ER">Eritreea</option>
+          <option value="ET">Etiopia</option>
+          <option value="FK">Falkland</option>
+          <option value="FO">Faroe</option>
+          <option value="PS">Fasia Gaza si Teritoriile de Vest</option>
+          <option value="RU">Federatia Rusa</option>
+          <option value="FJ">Fiji</option>
+          <option value="PH">Filipine</option>
+          <option value="GA">Gabon</option>
+          <option value="GM">Gambia</option>
+          <option value="GE">Georgia</option>
+          <option value="GS">Georgia de Sud si Insulele Sandwich</option>
+          <option value="GH">Ghana</option>
+          <option value="GI">Gibraltar</option>
+          <option value="GD">Grenada</option>
+          <option value="GL">Groenlanda</option>
+          <option value="GP">Guadelupa</option>
+          <option value="GU">Guam</option>
+          <option value="GT">Guatemala</option>
+          <option value="GG">Guernsey</option>
+          <option value="GF">Guiana Franceza</option>
+          <option value="GN">Guineea</option>
+          <option value="GQ">Guineea Ecuatoriala</option>
+          <option value="GW">Guineea-Bissau</option>
+          <option value="GY">Guyana</option>
+          <option value="HT">Haiti</option>
+          <option value="HM">Heard si McDonald</option>
+          <option value="HN">Honduras</option>
+          <option value="HK">Hong Kong</option>
+          <option value="IN">India</option>
+          <option value="ID">Indonezia</option>
+          <option value="AX">Insulele Aland</option>
+          <option value="JO">Iordania</option>
+          <option value="IQ">Irak</option>
+          <option value="IR">Iran</option>
+          <option value="IS">Islanda</option>
+          <option value="IL">Israel</option>
+          <option value="JM">Jamaica</option>
+          <option value="JP">Japonia</option>
+          <option value="JE">Jersey</option>
+          <option value="KZ">Kazakhstan</option>
+          <option value="KE">Kenya</option>
+          <option value="KG">Kirghiztan</option>
+          <option value="KI">Kiribati</option>
+          <option value="KW">Kuwait</option>
+          <option value="LA">Laos</option>
+          <option value="LS">Lesotho</option>
+          <option value="LB">Liban</option>
+          <option value="LR">Liberia</option>
+          <option value="LY">Libia</option>
+          <option value="LI">Liechtenstein</option>
+          <option value="MO">Macao</option>
+          <option value="MK">Macedonia</option>
+          <option value="MG">Madagascar</option>
+          <option value="MY">Malaezia</option>
+          <option value="MW">Malawi</option>
+          <option value="MV">Maldive</option>
+          <option value="ML">Mali</option>
+          <option value="IM">Man</option>
+          <option value="MP">Mariane de Nord</option>
+          <option value="MA">Maroc</option>
+          <option value="MH">Marshall</option>
+          <option value="MQ">Martinica</option>
+          <option value="MR">Mauritania</option>
+          <option value="MU">Mauritius</option>
+          <option value="YT">Mayotte</option>
+          <option value="MX">Mexic</option>
+          <option value="FM">Micronezia</option>
+          <option value="MD">Moldova</option>
+          <option value="MC">Monaco</option>
+          <option value="MN">Mongolia</option>
+          <option value="MS">Montserrat</option>
+          <option value="MZ">Mozambic</option>
+          <option value="ME">Muntenegru</option>
+          <option value="MM">Myanmar</option>
+          <option value="NA">Namibia</option>
+          <option value="NR">Nauru</option>
+          <option value="NP">Nepal</option>
+          <option value="NI">Nicaragua</option>
+          <option value="NE">Niger</option>
+          <option value="NG">Nigeria</option>
+          <option value="NU">Niue</option>
+          <option value="NF">Norfolk</option>
+          <option value="NO">Norvegia</option>
+          <option value="NC">Noua Caledonie</option>
+          <option value="NZ">Noua Zealanda</option>
+          <option value="IO">Oceanul Indian</option>
+          <option value="OM">Oman</option>
+          <option value="PK">Pakistan</option>
+          <option value="PW">Palau</option>
+          <option value="PA">Panama</option>
+          <option value="PG">Papua-Noua Guinee</option>
+          <option value="PY">Paraguay</option>
+          <option value="PE">Peru</option>
+          <option value="PN">Pitcairn</option>
+          <option value="PF">Polinezia Franceza</option>
+          <option value="PR">Porto Rico</option>
+          <option value="QA">Qatar</option>
+          <option value="RE">Reunion</option>
+          <option value="RW">Rwanda</option>
+          <option value="EH">Sahara de Vest</option>
+          <option value="BL">Saint Barthelemy</option>
+          <option value="KN">Saint Kitts si Nevis</option>
+          <option value="MF">Saint Martin</option>
+          <option value="PM">Saint Pierre si Miquelon</option>
+          <option value="SV">Salvador</option>
+          <option value="WS">Samoa</option>
+          <option value="AS">Samoa Americana</option>
+          <option value="SM">San Marino</option>
+          <option value="ST">Sao Tome si Principe</option>
+          <option value="SN">Senegal</option>
+          <option value="RS">Serbia</option>
+          <option value="SC">Seychelles</option>
+          <option value="SH">Sf. Elena</option>
+          <option value="LC">Sf. Lucia</option>
+          <option value="VC">Sf. Vicentiu si Grenadines</option>
+          <option value="SL">Sierra Leone</option>
+          <option value="SG">Singapore</option>
+          <option value="SY">Siriana</option>
+          <option value="SB">Solomon</option>
+          <option value="SO">Somalia</option>
+          <option value="LK">Sri Lanka</option>
+          <option value="US">Statele Unite ale Americii</option>
+          <option value="SD">Sudan</option>
+          <option value="SR">Surinam</option>
+          <option value="SJ">Svalbard si Jan Mayen</option>
+          <option value="SZ">Swaziland</option>
+          <option value="TJ">Tadjikistan</option>
+          <option value="TH">Tailanda</option>
+          <option value="TW">Taiwan</option>
+          <option value="TZ">Tanzania</option>
+          <option value="TF">Teritoriile australe franceze</option>
+          <option value="UM">Teritoriile indepartate ale SUA</option>
+          <option value="TL">Timor-Leste</option>
+          <option value="TG">Togo</option>
+          <option value="TK">Tokelau</option>
+          <option value="TO">Tonga</option>
+          <option value="TT">Trinidad Tobago</option>
+          <option value="TN">Tunisia</option>
+          <option value="TR">Turcia</option>
+          <option value="TM">Turkmenistan</option>
+          <option value="TC">Turks si Caicos</option>
+          <option value="TV">Tuvalu</option>
+          <option value="UA">Ucraina</option>
+          <option value="UG">Uganda</option>
+          <option value="UY">Uruguay</option>
+          <option value="UZ">Uzbekistan</option>
+          <option value="VU">Vanuatu</option>
+          <option value="VA">Vatican</option>
+          <option value="VE">Venezuela</option>
+          <option value="VN">Vietnam</option>
+          <option value="VI">Virgine Americane</option>
+          <option value="VG">Virgine Britanice</option>
+          <option value="WF">Wallis si Futuna</option>
+          <option value="YE">Yemen</option>
+          <option value="ZM">Zambia</option>
+          <option value="ZW">Zimbabwe </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-5 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Localitate</span>
+        </div>
+        <input formControlName="LOCALITATE" class="form-control">
+      </div>
+      <div class="col-3 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Sector</span>
+        </div>
+        <input formControlName="SECTOR" class="form-control">
+      </div>
+      <div class="col-4 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Judet</span>
+        </div>
+        <input formControlName="JUDET" class="form-control">
+      </div>
+    </div>
+    <div class="input-group input-group-sm mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Adresa</span>
+      </div>
+      <input formControlName="STR" type="text" class="form-control" placeholder="Adresa">
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-2 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Nr.</span>
+        </div>
+        <input formControlName="NR" class="form-control">
+      </div>
+      <div class="col-2 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Bl.</span>
+        </div>
+        <input formControlName="BLOC" class="form-control">
+      </div>
+      <div class="col-2 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Sc.</span>
+        </div>
+        <input formControlName="SCARA" class="form-control">
+      </div>
+      <div class="col-2 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Ap.</span>
+        </div>
+        <input formControlName="AP" class="form-control">
+      </div>
+      <div class="col-2 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Et.</span>
+        </div>
+        <input formControlName="ETAJ" class="form-control">
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-sm-3 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Fax</span>
+        </div>
+        <input formControlName="FAX" class="form-control">
+      </div>
+      <div class="col-sm-3 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Cod Postal</span>
+        </div>
+        <input formControlName="POSTAL" class="form-control">
+      </div>
+      <div class="col-sm-3 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Telefon</span>
+        </div>
+        <input formControlName="TEL" class="form-control">
+      </div>
+      <div class="col-sm-3 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Email</span>
+        </div>
+        <input formControlName="EMAIL" class="form-control">
+      </div>
+    </div>
+    <div class="input-group input-group-sm mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Observatii</span>
+      </div>
+      <input formControlName="OBS" type="text" class="form-control" placeholder="Alte Observatii">
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+      <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"
+          aria-hidden="true"></i> Cancel</button>
+    </div>
+  </form>
+</div>

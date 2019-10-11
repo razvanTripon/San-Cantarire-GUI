@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md bg-secondary navbar-dark p-0">
+  <button (click)="toggleNavbar()" class="navbar-toggler" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+    <ul class="nav nav-pills mr-auto ">
+      <!-- navbar-nav mr-auto -->
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/planificare']" [routerLinkActive]="'active'"><i
+            class="fa fa-stack-overflow" aria-hidden="true"></i> Planificare</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/cantarire']" [routerLinkActive]="'active'"><i
+            class="fa fa-linode" aria-hidden="true"></i> Cantarire</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" appDropDown #r="appDropDown">
+          <i class="fa fa-building-o" aria-hidden="true"></i>
+          Nomenclatoare
+        </a>
+        <div class="dropdown-menu" [ngClass]="{show: r.isOpen}">
+          <a class="dropdown-item" [routerLink]="['/parteneri']">Parteneri</a>
+          <a class="dropdown-item" [routerLink]="['/produse']">Produse</a>
+          <a class="dropdown-item" [routerLink]="['/lucrari']">Activitati/Lucrari</a>
+        </div>
+      </li>
+
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" appDropDown #rap="appDropDown">
+          Rapoarte
+        </a>
+        <div class="dropdown-menu" [ngClass]="{show: rap.isOpen}">
+          <a  class="dropdown-item" href="https://example.com" target="_blank" rel="noopener" >test</a>
+          <a class="dropdown-item" href="rap1" target="_blank" rel="noopener">rap1</a>
+          <a class="dropdown-item" href="rap2" target="_blank" rel="noopener">rap2</a>
+          <a class="dropdown-item" href="rap3" target="_blank" rel="noopener">rap3</a>
+        </div>
+      </li> -->
+    </ul>
+    <a class="navbar-brand text-light"> {{auth.currentUser$ |async}}</a>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link text-white" (click)="onClick()" [routerLinkActive]="'active'"><i
+            class="fa fa-user-plus text-info"></i> Users management</a>
+      </li>
+    </ul>
+
+    <button (click)="logOut()" class="btn btn-danger btn-sm" type="button">Log Out</button>
+  </div>
+</nav>
+<app-alert></app-alert>

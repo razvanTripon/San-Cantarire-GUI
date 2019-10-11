@@ -1,0 +1,92 @@
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header" >
+    <h4 class="modal-title">
+        {{editMode=="modify" ? 'Editare produs cantarit' :'Adaugare cantarire manuala produs'}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formOperare" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+        <div class="form-group row mb-2">
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Numar bobina</span>
+                </div>
+                <input onfocus="this.select()" formControlName="NR_BOBINA" class="form-control" type="number"
+                    [ngClass]="{'is-invalid':formOperare.get('NR_BOBINA').invalid &&  (formOperare.get('NR_BOBINA').touched || submit)}">
+            </div>
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Numar tambur</span>
+                </div>
+                <input onfocus="this.select()" formControlName="NR_TAMBUR" class="form-control" type="number"
+                    [ngClass]="{'is-invalid':formOperare.get('NR_TAMBUR').invalid &&  (formOperare.get('NR_TAMBUR').touched || submit)}">
+            </div>
+           
+        </div>
+        <div class="form-group row mb-2">
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Greutate</span>
+                </div>
+                <input ngbAutofocus onfocus="this.select()" formControlName="GREUTATE" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">kg</span>
+                </div>
+            </div>
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Lungime</span>
+                </div>
+                <input onfocus="this.select()" formControlName="LUNGIME" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">m</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row mb-2">
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Diametru interior</span>
+                </div>
+                <input onfocus="this.select()" formControlName="DIAM_INTERIOR" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">cm</span>
+                </div>
+            </div>
+            <div class="col-6 input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Diametru exterior</span>
+                </div>
+                <input onfocus="this.select()" formControlName="DIAM_EXTERIOR" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">cm</span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group input-group-sm mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">CLIENT</span>
+            </div>
+            <input #inputClient formControlName="CLIENT" onfocus="this.select()" class="form-control rounded"
+                [ngbTypeahead]="searchClient" placeholder="Selectati clientul" (selectItem)="onselectClient($event)"
+                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+            <div class="input-group-prepend">
+                <button class="btn btn-default btn-outline-light" type="button"
+                    (click)="onAdvanceSearchClient(inputClient.value)"> <i class="fa fa-search text-success"
+                        aria-hidden="true"></i> </button>
+            </div>
+        </div>
+        <small class="form-text text-muted ml-2">{{labelClient}}</small>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i>
+                Save</button>
+            <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"
+                    aria-hidden="true"></i> Cancel</button>
+        </div>
+    </form>
+</div>

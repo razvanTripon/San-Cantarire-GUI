@@ -1,0 +1,42 @@
+<br>
+<div class="container col-11 col-lg-6">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="text-info">Cloud Planificare Productie </h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user fa-lg"></i></span>
+                    </div>
+                    <input type="text" formControlName="username" class="form-control"
+                        [ngClass]="{ 'is-invalid': (loginForm.get('username').touched && !loginForm.get('username').valid) || (submitted && !loginForm.get('username').valid) }"
+                        placeholder="Please enter a valid email">
+                </div>
+                <div *ngIf="(loginForm.get('username').touched && !loginForm.get('username').valid) || submitted"
+                    class="text-danger">
+                    <div *ngIf="loginForm.get('username').hasError('required')">Username is required</div>
+                    <div *ngIf="loginForm.get('username').hasError('email')">Please enter a valid email</div>
+                </div>
+                <br>
+                <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-lock fa-lg"></i></span>
+                    </div>
+                    <input type="password" formControlName="password" class="form-control"
+                        [ngClass]="{ 'is-invalid': (loginForm.get('password').touched && !loginForm.get('password').valid) || (submitted && !loginForm.get('password').valid) }"
+                        placeholder="Password">
+                </div>
+                <div *ngIf="loginForm.get('password').touched && !loginForm.get('password').valid || (submitted && !loginForm.get('password').valid)"
+                    class="text-danger">
+                    Password is required
+                </div>
+                <br>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary float-right" type="submit"> Login </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

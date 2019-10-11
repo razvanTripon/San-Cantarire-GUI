@@ -1,0 +1,17 @@
+<app-navbar-close [title]="'Nomenclator Produse'"></app-navbar-close>
+<app-meniu-nomp></app-meniu-nomp>
+<div style="height: 80vh">
+    <ag-grid-angular 
+        #agGrid 
+        style="width:99%; height: 99%; " 
+        class="ag-theme-balham"
+        [rowData]="rowData | async"
+        [columnDefs]="columnDefs" 
+        rowSelection="single" 
+        (rowDataChanged)="onRowDataChanged()"
+        (filterChanged)="onFilterChanged()"
+        (selectionChanged)="onSelectionChanged()"
+        (gridReady)="onGridReady()">
+    </ag-grid-angular>
+</div>
+<router-outlet></router-outlet>
