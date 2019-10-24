@@ -29,7 +29,7 @@
         </ul> -->
         <ng-toggle (valueChange)="cantarireAutomata($event)" onColor="{{switchCantarire.onColor}}"
             offColor="{{switchCantarire.offColor}}" [disabled]="switchCantarire.disabled" [size]="switchCantarire.size"
-            [value]="switchCantarire.value">
+            [(ngModel)]="switchCantarire.value">
             <ng-template ngToggleLabel forLabel="on"><span style="width: 125px;">Cantarire auto. On</span>
             </ng-template>
             <ng-template ngToggleLabel forLabel="off"><span style="width: 125px;">Cantarire auto. Off</span>
@@ -38,7 +38,7 @@
         </ng-toggle>
         <ng-toggle (valueChange)="listareAutomata($event)" onColor="{{switchListare.onColor}}"
             offColor="{{switchListare.offColor}}" [disabled]="switchListare.disabled" [size]="switchListare.size"
-            [value]="switchListare.value">
+            [(ngModel)]="switchListare.value">
             <ng-template ngToggleLabel forLabel="on"><span style="width: 125px;">Listare auto. On</span>
             </ng-template>
             <ng-template ngToggleLabel forLabel="off"><span style="width: 125px;">Listare auto. Off</span>

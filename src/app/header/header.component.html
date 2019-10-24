@@ -24,6 +24,16 @@
           <a class="dropdown-item" [routerLink]="['/lucrari']">Activitati/Lucrari</a>
         </div>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" appDropDown #rUtilitare="appDropDown">
+          <i class="fa fa-yelp text-success" aria-hidden="true"></i>
+          Utilitare
+        </a>
+        <div class="dropdown-menu" [ngClass]="{show: rUtilitare.isOpen}">
+          <a class="dropdown-item" [routerLink]="['/listareEticheta']">Listare eticheta</a>
+          <a class="dropdown-item" [routerLink]="['/backup']">Backup Now</a>
+        </div>
+      </li>
 
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-white" appDropDown #rap="appDropDown">

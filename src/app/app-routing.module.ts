@@ -13,10 +13,14 @@ import { NompComponent } from './nomenclatoare/nomp/nomp.component';
 import { EditareBobineComponent } from './planificare/bobine/editare-bobine/editare-bobine.component';
 import { NomlComponent } from './nomenclatoare/noml/noml.component';
 import { UsersManagementComponent } from './users-management/users-management.component';
+import { BackupComponent } from './backup/backup.component';
+import { ListareEtichetaComponent } from './listare-eticheta/listare-eticheta.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'backup', component: BackupComponent, canActivate: [AuthGuard] },
+  { path: 'listareEticheta', component: ListareEtichetaComponent, canActivate: [AuthGuard] },
   {
     path: 'planificare', component: PlanificareComponent, canActivate: [AuthGuard],
     children: [

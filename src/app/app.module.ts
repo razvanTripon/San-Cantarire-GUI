@@ -10,7 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { PlanificareComponent } from './planificare/planificare.component';
 import { CantarireComponent } from './cantarire/cantarire.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavbarCloseComponent } from './navbar-close/navbar-close.component';
 import { HeaderComponent } from './header/header.component';
@@ -58,6 +58,8 @@ import { UsersManagementComponent } from './users-management/users-management.co
 import { EditUserComponent } from './users-management/edit-user/edit-user.component';
 import { MeniuUsersComponent } from './users-management/meniu-users/meniu-users.component';
 import { EditUserService } from './users-management/edit-user/edit-user.service';
+import { BackupComponent } from './backup/backup.component';
+import { ListareEtichetaComponent } from './listare-eticheta/listare-eticheta.component';
 
 @NgModule({
   declarations: [
@@ -101,11 +103,14 @@ import { EditUserService } from './users-management/edit-user/edit-user.service'
     EditSetariCantarireComponent,
     UsersManagementComponent,
     EditUserComponent,
-    MeniuUsersComponent
+    MeniuUsersComponent,
+    BackupComponent,
+    ListareEtichetaComponent
   ],
   imports: [
     NgToggleModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

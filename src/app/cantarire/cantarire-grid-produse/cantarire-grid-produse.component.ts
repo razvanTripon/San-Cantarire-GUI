@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -25,6 +25,7 @@ export class CantarireGridProduseComponent implements OnDestroy {
   subscriptions = new Subscription();
   subscriptionServer: Subscription;
   rowNodeSelected: RowNode;
+  serverSubscriptionExist = false;
   showAlert = false;
   switchCantarire: any = { onColor: 'success', offColor: 'secondary', disabled: false, size: 'sm', value: false };
   switchListare: any = { onColor: 'success', offColor: 'secondary', disabled: false, size: 'sm', value: false };
@@ -61,7 +62,7 @@ export class CantarireGridProduseComponent implements OnDestroy {
           this.menuDisabled = false
         }
       })
-
+    this.subscriptions.add(subsDisabled);
     const sub1 = this.cantarireService.formDetalii$
       .subscribe(frm => {
         this.formDetalii = frm;
@@ -72,12 +73,10 @@ export class CantarireGridProduseComponent implements OnDestroy {
       if (data == null) {
         this.switchCantarire["disabled"] = true;
         this.switchListare["disabled"] = true;
-        // this.menuDisabled = true;
       } else {
         this.switchCantarire["disabled"] = false;
         this.switchListare["disabled"] = false;
         this.showAlert = Number(data["CANT_RAMASA"]) <= 2000
-        // this.menuDisabled = false;
       }
     })
     this.subscriptions.add(sub2);
@@ -119,32 +118,30 @@ export class CantarireGridProduseComponent implements OnDestroy {
   }
 
   cantarireAutomata(ev) {
-    if (ev == true) {
-      // this.menuDisabled=true;
-      this.cantarireService.cantarireAutomata$.next(true);
-      this.subscriptionServer = this.sseService.getServerSentEvent('/api/traductori').subscribe(
-        (traductoriData) => {
-          if (traductoriData["err"]) {
-            this.alertService.emitAlert({ message: traductoriData["err"], type: "danger", time: 60000 });
-            // this.switchCantarire["value"] = false;
-            // this.cantarireService.cantarireAutomata$.next(false);
-            // this.switchCantarire.value=false;
-          }
-          if (traductoriData["CANTITATE"]) this.cantarireService.addRowCantarireAutomata(traductoriData["CANTITATE"]);
-          if (traductoriData["LUNGIMEA"]) this.formDetalii.controls["LUNGIME"].setValue(traductoriData["LUNGIMEA"]);
-          if (traductoriData["DIAMETRUL"]) {
+    if (ev != null) {
+      if (ev == true) {
+        this.alertService.clearAllMessage();
+        this.cantarireService.cantarireAutomata$.next(true);
+        this.serverSubscriptionExist = true;
+        this.subscriptionServer = this.sseService.getServerSentEvent('/api/traductori').subscribe(
+          (traductoriData) => {
+            if (traductoriData["err"]) {
+              this.alertService.emitAlert({ message: traductoriData["err"], type: "danger", time: 6000000 });
+              this.switchCantarire.value = false;
+              this.switchListare.value = false;
+            }
+            if (traductoriData["CANTITATE"]) this.cantarireService.addRowCantarireAutomata(traductoriData["CANTITATE"]);
+            if (traductoriData["LUNGIMEA"]) this.formDetalii.controls["LUNGIME"].setValue(traductoriData["LUNGIMEA"]);
+            if (traductoriData["DIAMETRUL"]) this.formDetalii.controls["DIAMETRU"].setValue(traductoriData["DIAMETRUL"]);
 
-            this.formDetalii.controls["DIAMETRU"].setValue(traductoriData["DIAMETRUL"]);
           }
-        }
-      );
-      this.subscriptions.add(this.subscriptionServer);
-    } else {
-      // this.menuDisabled=false;
-      this.subscriptionServer.unsubscribe();
-      this.cantarireService.cantarireAutomata$.next(false);
+        );
+        this.subscriptions.add(this.subscriptionServer);
+      } else {
+        if (this.serverSubscriptionExist) this.subscriptionServer.unsubscribe();
+        this.cantarireService.cantarireAutomata$.next(false);
+      }
     }
-    //    console.log('cantarire auto' + ev)
   }
 
   onEdit() {
@@ -176,7 +173,6 @@ export class CantarireGridProduseComponent implements OnDestroy {
             this.cantarireService.deleteProduseCantarite((this.rowNodeSelected.data)["UID"]).then((msg) => {
               this.agGrid.updateRowData({ remove: this.agGrid.getSelectedRows() });
               this.onRowDataChanged()
-              // this.cantarireService.loadDataGridProduse$.next(true);
             });
           }
         })
