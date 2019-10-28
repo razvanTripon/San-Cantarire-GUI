@@ -22,14 +22,18 @@ export class MeniuNomlComponent  {
   onEdit() {
     const cod = this.nomlService.rowSelectedNoml$.getValue();
     if (cod != null) {
-      this.editNomlService.openEditare(cod)
+      this.editNomlService.openEditare(cod).then(data => {
+        if (data && data.hasOwnProperty("COD")) this.nomlService.scrollToCodLucrare$.next(data["COD"])
+      })
     } else {
       this.alertService.emitAlert({ type: "danger", message: "Va rugam selectati mai intai un rand", size: "w-25", time: 5000 })
     }
   }
 
   onAdd() {
-    this.editNomlService.openEditare();
+    this.editNomlService.openEditare().then(data => {
+      if (data && data.hasOwnProperty("COD")) this.nomlService.scrollToCodLucrare$.next(data["COD"])
+    });
   }
 
   onDelete() {

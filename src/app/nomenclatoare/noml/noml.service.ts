@@ -12,6 +12,7 @@ export class NomlService {
   data_ini: { year: number, month: number, day: number } = this.helper.getBootstrapDate(new Date());
   loadGridNoml$ = new Subject<boolean>();
   rowSelectedNoml$ = new BehaviorSubject<string>(null);
+  scrollToCodLucrare$ = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient, private helper: HelperService) {
   }

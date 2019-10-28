@@ -10,16 +10,17 @@ import { RowNode } from 'ag-grid-community';
   styleUrls: ['./noml.component.scss']
 })
 export class NomlComponent implements OnInit {
+  scrollTOCodLucrare = ""
   subscription = new Subscription();
   @ViewChild('agGrid', { static: true }) agGrid: AgGridNg2;
   rowData;
   columnDefs = [
-    { headerName: 'Cod', field: 'COD', sortable: true, filter: true,width:120 },
-    { headerName: 'Denumire', field: 'NUME', sortable: true, filter: true, width:250 },
-    { headerName: 'Data Inceput', field: 'DATA_LAN', sortable: true, filter: true,width:140 },
-    { headerName: 'Data Finala', field: 'DATA_INCH', sortable: true, filter: true,width:140 },
-    { headerName: 'Partener', field: 'PARTENER', sortable: true, filter: true,width:120 },
-    { headerName: 'OBS.', field: 'OBS', sortable: true, filter: true}
+    { headerName: 'Cod', field: 'COD', sortable: true, filter: true, width: 120 },
+    { headerName: 'Denumire', field: 'NUME', sortable: true, filter: true, width: 250 },
+    { headerName: 'Data Inceput', field: 'DATA_LAN', sortable: true, filter: true, width: 140 },
+    { headerName: 'Data Finala', field: 'DATA_INCH', sortable: true, filter: true, width: 140 },
+    { headerName: 'Partener', field: 'PARTENER', sortable: true, filter: true, width: 120 },
+    { headerName: 'OBS.', field: 'OBS', sortable: true, filter: true }
   ];
   constructor(private nomlService: NomlService) { }
 
@@ -29,16 +30,31 @@ export class NomlComponent implements OnInit {
         this.rowData = this.nomlService.getDateServerNomf();
       })
     )
-
+    this.subscription.add(
+      this.nomlService.scrollToCodLucrare$.subscribe(cod => {
+        if (cod != null) {
+          this.scrollTOCodLucrare = cod
+        } else {
+          this.scrollTOCodLucrare = "";
+        }
+      })
+    );
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
   onRowDataChanged() {
     this.agGrid.api.forEachNode((rowNode: RowNode, index: number) => {
-      if (index == 0) {
-        rowNode.setSelected(true);
-        this.nomlService.rowSelectedNoml$.next(rowNode.data["COD"])
+      if (this.scrollTOCodLucrare != "") {
+        if (rowNode["data"]["COD"] == this.scrollTOCodLucrare) {
+          rowNode.setSelected(true);
+          this.agGrid.api.ensureNodeVisible(rowNode, 'top')
+        }
+      } else {
+        if (index == 0) {
+          rowNode.setSelected(true);
+          this.nomlService.rowSelectedNoml$.next(rowNode.data["COD"])
+        }
       }
     })
   }
@@ -56,7 +72,7 @@ export class NomlComponent implements OnInit {
       this.nomlService.rowSelectedNoml$.next(rowNode.data["COD"])
     })
   }
-  onGridReady(){
+  onGridReady() {
     this.nomlService.loadGridNoml$.next(true);
   }
 

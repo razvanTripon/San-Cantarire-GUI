@@ -44,12 +44,13 @@ export class EditNomfComponent implements OnInit {
       'POSTAL': [""],
       'TEL': [""],
       'EMAIL': [""],
-      'OBS': [""]
+      'OBS': [""],
+      'COD_OLD':[""]
     })
   }
 
   ngOnInit() {
-    if(this.editMode) this.formNomf.controls["COD"].disable();
+  //  if(this.editMode) this.formNomf.controls["COD"].disable();
     this.nomfService.getRowEditare(this.configDialog["cod"]).then((rowData: nomfModel) => {
       for (let key in this.formNomf.controls) {
         if (rowData.hasOwnProperty(key)) {
@@ -58,6 +59,7 @@ export class EditNomfComponent implements OnInit {
         if (this.configDialog["fixedData"].hasOwnProperty(key)) {
           this.formNomf.controls[key].setValue(this.configDialog["fixedData"][key]);
         }
+        if(rowData.hasOwnProperty("COD")) this.formNomf.controls["COD_OLD"].setValue(rowData["COD"])
       }
     })
   }
@@ -78,7 +80,7 @@ export class EditNomfComponent implements OnInit {
 
   dismiss() {
     this.formNomf.reset();
-    this.activeModal.dismiss();
+    this.activeModal.close();
   }
 
   onCancel() {

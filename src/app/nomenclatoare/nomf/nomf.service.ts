@@ -8,6 +8,8 @@ import { nomfModel } from './nomf.model';
 export class NomfService {
     loadGridNomf$ = new Subject<boolean>();
     rowSelectedNomf$ = new BehaviorSubject<string>(null);
+    scrollToCodPartener$=new BehaviorSubject<string>(null);
+
     constructor(private http: HttpClient) {
 
     }

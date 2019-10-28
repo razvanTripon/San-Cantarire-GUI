@@ -36,11 +36,12 @@ export class EditNomlComponent implements OnInit {
       'DATA_INCH': ["", Validators.required],
       'PARTENER': [{ value: "", label: "" }, this.partenervalidator],
       'OBS': [""],
+      'COD_OLD':[""]
     })
   }
 
   ngOnInit() {
-    if (this.editMode) this.formNoml.controls["COD"].disable();
+//    if (this.editMode) this.formNoml.controls["COD"].disable();
     this.nomlService.getRowEditare(this.configDialog["cod"]).then((rowData: nomlModel) => {
       for (let key in this.formNoml.controls) {
         if (this.configDialog["fixedData"].hasOwnProperty(key)) {
@@ -58,20 +59,7 @@ export class EditNomlComponent implements OnInit {
             }
           }
         }
-
-        // this.formNoml.controls["PARTENER"].setValue({ value: rowData["PARTENER"], label: rowData["DENUMIRE_PARTENER"] })
-        // console.log("aici1")
-
-        // this.labelPartener = rowData["DENUMIRE_PARTENER"];
-        // if (this.configDialog["fixedData"].hasOwnProperty(key)) {
-        //   if (key == "PARTENER") {
-        //     console.log("aici2")
-        //     this.formNoml.controls["PARTENER"].setValue({ value: "dd", label: "ddd" })
-
-        //   } else {
-        //     this.formNoml.controls[key].setValue(this.configDialog["fixedData"][key]);
-        //   }
-        // }
+        if(rowData.hasOwnProperty("COD")) this.formNoml.controls["COD_OLD"].setValue(rowData["COD"])
       }
     })
   }
@@ -91,7 +79,7 @@ export class EditNomlComponent implements OnInit {
 
   dismiss() {
     this.formNoml.reset();
-    this.activeModal.dismiss();
+    this.activeModal.close();
   }
 
   onCancel() {

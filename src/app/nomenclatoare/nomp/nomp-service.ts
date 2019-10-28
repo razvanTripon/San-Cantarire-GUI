@@ -8,6 +8,7 @@ import { nompModel } from './nomp.model';
 export class NompService {
     loadGridNomp$ = new Subject<boolean>();
     rowSelectedNomp$ = new BehaviorSubject<string>(null);
+    scrollToCod$=new BehaviorSubject<string>(null);
     constructor(private http: HttpClient) {
 
     }

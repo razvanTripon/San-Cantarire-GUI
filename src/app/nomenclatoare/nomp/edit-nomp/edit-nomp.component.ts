@@ -35,12 +35,13 @@ export class EditNompComponent implements OnInit {
       'DIAM_INTERIOR': [0],
       'DIAM_EXTERIOR': [0],
       'OBS': [],
-      'CPSA':[]
+      'CPSA':[],
+      'CODP_OLD':[""]
     })
   }
 
   ngOnInit() {
-    if(this.editMode) this.formNomp.controls["CODP"].disable();
+    //if(this.editMode) this.formNomp.controls["CODP"].disable();
     this.nompService.getRowEditare(this.configDialog["codp"]).then((rowData: nompModel) => {
       for (let key in this.formNomp.controls) {
         if (rowData.hasOwnProperty(key)) {
@@ -50,6 +51,7 @@ export class EditNompComponent implements OnInit {
           this.formNomp.controls[key].setValue(this.configDialog["fixedData"][key]);
         }
       }
+      if(rowData.hasOwnProperty("CODP")) this.formNomp.controls["CODP_OLD"].setValue(rowData["CODP"])
     })
   }
 
@@ -69,7 +71,7 @@ export class EditNompComponent implements OnInit {
 
   dismiss() {
     this.formNomp.reset();
-    this.activeModal.dismiss();
+    this.activeModal.close();
   }
 
   onCancel() {

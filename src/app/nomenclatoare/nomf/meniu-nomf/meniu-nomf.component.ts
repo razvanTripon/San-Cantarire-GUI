@@ -13,9 +13,9 @@ export class MeniuNomfComponent implements OnInit {
 
   constructor(
     private nomfService: NomfService,
-    private editNomfService:EditNomfService,
-    private alertService:AlertService,
-    private confirmationDialogService:ConfirmationDialogService
+    private editNomfService: EditNomfService,
+    private alertService: AlertService,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   ngOnInit() {
@@ -26,27 +26,31 @@ export class MeniuNomfComponent implements OnInit {
   onEdit() {
     const cod = this.nomfService.rowSelectedNomf$.getValue();
     if (cod != null) {
-      this.editNomfService.openEditare(cod);
+      this.editNomfService.openEditare(cod).then(data => {
+        if (data && data.hasOwnProperty("COD")) this.nomfService.scrollToCodPartener$.next(data["COD"])
+      })
     } else {
-      this.alertService.emitAlert({ type: "danger", message: "Va rugam selectati mai intai un rand",size:"w-25",time:5000 })
+      this.alertService.emitAlert({ type: "danger", message: "Va rugam selectati mai intai un rand", size: "w-25", time: 5000 })
     }
   }
   onAdd() {
-    this.editNomfService.openEditare();
+    this.editNomfService.openEditare().then(data => {
+      if (data && data.hasOwnProperty("COD")) this.nomfService.scrollToCodPartener$.next(data["COD"])
+    });
   }
   onDelete() {
     const cod = this.nomfService.rowSelectedNomf$.getValue();
     if (cod != null) {
       this.confirmationDialogService.confirm('Va rugam sa confirmati..', 'Doriti sa stergeti randul selectat ?')
-      .then((confirmed) =>{
-        if(confirmed){
-          this.nomfService.deleteRow(cod)
-        }  
-      })
-      .catch(dd=>{})
-      
+        .then((confirmed) => {
+          if (confirmed) {
+            this.nomfService.deleteRow(cod)
+          }
+        })
+        .catch(dd => { })
+
     } else {
-      this.alertService.emitAlert({ type: "danger", message: "Va rugam selectati mai intai un rand",size:"w-25",time:5000 })
+      this.alertService.emitAlert({ type: "danger", message: "Va rugam selectati mai intai un rand", size: "w-25", time: 5000 })
     }
   }
 }

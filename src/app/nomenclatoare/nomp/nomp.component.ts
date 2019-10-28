@@ -10,7 +10,7 @@ import { RowNode } from 'ag-grid-community';
   styleUrls: ['./nomp.component.scss']
 })
 export class NompComponent implements OnInit,OnDestroy {
-
+  scrollTOCod="";
   subscription = new Subscription();
   @ViewChild('agGrid', { static: true }) agGrid: AgGridNg2;
   rowData;
@@ -29,11 +29,25 @@ export class NompComponent implements OnInit,OnDestroy {
   constructor(private nompService: NompService) { }
 
   ngOnInit() {
+    this.agGrid.getRowStyle= function(params) {
+      if (params.node["data"]["PAR"] =="") {
+          return { color: '#17A2B8','font-weight':'bold' }
+      }
+    }
     this.subscription.add(
       this.nompService.loadGridNomp$.subscribe(data => {
         this.rowData = this.nompService.getDateServerNomf();
       })
-    )
+    );
+    this.subscription.add(
+      this.nompService.scrollToCod$.subscribe(codp => {
+        if(codp!=null){
+          this.scrollTOCod=codp
+        }else{
+          this.scrollTOCod="";
+        }
+      })
+    );
 
   }
   ngOnDestroy(){
@@ -41,9 +55,16 @@ export class NompComponent implements OnInit,OnDestroy {
   }
   onRowDataChanged() {
     this.agGrid.api.forEachNode((rowNode: RowNode, index: number) => {
-      if (index == 0) {
-        rowNode.setSelected(true);
-      }
+      if(this.scrollTOCod!=""){
+        if(rowNode["data"]["CODP"]==this.scrollTOCod){
+          rowNode.setSelected(true);
+          this.agGrid.api.ensureNodeVisible(rowNode, 'top')
+        }
+      }else{
+        if (index == 0){
+          rowNode.setSelected(true);
+        }
+      }  
     })
   }
   onFilterChanged() {
