@@ -14,7 +14,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Cod Produs</span>
       </div>
-      <input
+      <input ngbAutofocus
         [ngClass]="{'is-invalid':formList.get('COD_PRODUS').invalid &&  (formList.get('COD_PRODUS').touched || submit)}"
         #inputCodProdus formControlName="COD_PRODUS" onfocus="this.select()" class="form-control rounded"
         [ngbTypeahead]="searchClient" placeholder="Selectati codul de produs" (selectItem)="onselectProdus($event)"
@@ -38,7 +38,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Greutate</span>
         </div>
-        <input ngbAutofocus onfocus="this.select()" formControlName="GREUTATE" class="form-control" type="number">
+        <input onfocus="this.select()" formControlName="GREUTATE" class="form-control" type="number">
         <div class="input-group-append">
           <span class="input-group-text">kg</span>
         </div>
