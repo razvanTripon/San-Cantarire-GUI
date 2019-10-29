@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OwListareService } from './open-window/ow-listare.service';
 
 @Component({
   selector: 'app-listare-eticheta',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListareEtichetaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private owListare:OwListareService) { }
 
   ngOnInit() {
+    this.owListare.openEditare()
   }
 
 }

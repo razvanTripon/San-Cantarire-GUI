@@ -60,6 +60,8 @@ import { MeniuUsersComponent } from './users-management/meniu-users/meniu-users.
 import { EditUserService } from './users-management/edit-user/edit-user.service';
 import { BackupComponent } from './backup/backup.component';
 import { ListareEtichetaComponent } from './listare-eticheta/listare-eticheta.component';
+import { OpenWindowComponent } from './listare-eticheta/open-window/open-window.component';
+import { OwListareService } from './listare-eticheta/open-window/ow-listare.service';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,8 @@ import { ListareEtichetaComponent } from './listare-eticheta/listare-eticheta.co
     EditUserComponent,
     MeniuUsersComponent,
     BackupComponent,
-    ListareEtichetaComponent
+    ListareEtichetaComponent,
+    OpenWindowComponent
   ],
   imports: [
     NgToggleModule,
@@ -120,8 +123,8 @@ import { ListareEtichetaComponent } from './listare-eticheta/listare-eticheta.co
     NgbModule,
     AgGridModule.withComponents([])
   ],
-  providers: [ConfirmationDialogService, AdvanceSearchService, EditNomfService, EditNompService, EditNomlService,EditAnexaNomlService,EditAnexa2NomlService,EditareCantarireProduseService,EditSetariCantarireService,EditUserService],
+  providers: [ConfirmationDialogService, AdvanceSearchService, EditNomfService, EditNompService, EditNomlService,EditAnexaNomlService,EditAnexa2NomlService,EditareCantarireProduseService,EditSetariCantarireService,EditUserService,OwListareService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent, AdvanceSearchComponent, EditNomfComponent, EditNompComponent, EditNomlComponent,EditAnexaNomlComponent,EditAnexa2NomlComponent,EditareProduseComponent,EditSetariCantarireComponent,EditUserComponent]
+  entryComponents: [ConfirmationDialogComponent, AdvanceSearchComponent, EditNomfComponent, EditNompComponent, EditNomlComponent,EditAnexaNomlComponent,EditAnexa2NomlComponent,EditareProduseComponent,EditSetariCantarireComponent,EditUserComponent,OpenWindowComponent]
 })
 export class AppModule { }
