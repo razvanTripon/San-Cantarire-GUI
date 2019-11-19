@@ -1,0 +1,62 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmit()">
+
+  <div class="modal-header" ngbAutofocus>
+    <h4 class="modal-title">{{ title }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row my-auto ">
+      <div class="col-4 input-group input-group-sm  ">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm ">Data Initiala</span>
+        </div>
+        <input style="height: 38px;" (click)="data_ini.toggle()" formControlName="DATA_INI" type="button"
+          class="form-control" ngbDatepicker #data_ini="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary " (click)="data_ini.toggle()" type="button">
+            <i class="fa fa-calendar"></i></button>
+        </div>
+      </div>
+      <div class="col-7 input-group input-group-sm ml-3">
+        <div class="input-group-prepend mr-2">
+          <span class="input-group-text" id="inputGroup-sizing-sm">ORA/Minutul</span>
+        </div>
+        <ngb-timepicker formControlName="TIME_INI"></ngb-timepicker>
+        <div *ngIf="formFilter.get('TIME_INI').invalid &&  (formFilter.get('TIME_INI').touched && submit)"
+          class="input-group-append my-auto ml-3 text-danger font-weight-bold">Seletati ora si minutul</div>
+      </div>
+    </div>
+    <div class="row mb-2"></div>
+
+    <div class="row my-auto ">
+      <div class="col-4 input-group input-group-sm  ">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm ">Data Finala</span>
+        </div>
+        <input style="height: 38px;" (click)="data_fin.toggle()" formControlName="DATA_FIN" type="button"
+          class="form-control" ngbDatepicker #data_fin="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary " (click)="data_fin.toggle()" type="button">
+            <i class="fa fa-calendar"></i></button>
+        </div>
+      </div>
+      <div class="col-7 input-group input-group-sm ml-3">
+        <div class="input-group-prepend mr-2">
+          <span class="input-group-text" id="inputGroup-sizing-sm">ORA/Minutul</span>
+        </div>
+        <ngb-timepicker formControlName="TIME_FIN"></ngb-timepicker>
+        <div *ngIf="formFilter.get('TIME_FIN').invalid &&  (formFilter.get('TIME_FIN').touched && submit)"
+          class="input-group-append my-auto ml-3 text-danger font-weight-bold">Seletati ora si minutul</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-primary"> <i class="fa fa-check" aria-hidden="true"></i>
+      {{ btnOkText }}</button>
+    <button type="button" class="btn btn-outline-danger" (click)="decline()"><i class="fa fa-ban"
+        aria-hidden="true"></i>
+      {{ btnCancelText }}</button>
+  </div>
+</form>

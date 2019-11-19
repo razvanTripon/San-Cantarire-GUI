@@ -21,7 +21,6 @@ export class MeniuNomfComponent implements OnInit {
   ngOnInit() {
   }
   onExportCSV() {
-    // this.planService.exportCSVGridPlanificare$.next(true);
   }
   onEdit() {
     const cod = this.nomfService.rowSelectedNomf$.getValue();

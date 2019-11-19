@@ -9,6 +9,7 @@ import { ConfirmationDialogService } from 'src/app/_shared/confirmation-dialog/c
 import { AlertService } from 'src/app/_shared/alert/alert.service';
 import { SseService } from '../sse.service';
 
+let marjaDiametru=0;
 @Component({
   selector: 'app-cantarire-grid-produse',
   templateUrl: './cantarire-grid-produse.component.html',
@@ -20,30 +21,28 @@ import { SseService } from '../sse.service';
   ]
 })
 export class CantarireGridProduseComponent implements OnDestroy {
+  lastTambur = 0;
   formDetalii: FormGroup;
   menuDisabled = false;
   subscriptions = new Subscription();
   subscriptionServer: Subscription;
   rowNodeSelected: RowNode;
   serverSubscriptionExist = false;
-  showAlert = false;
   switchCantarire: any = { onColor: 'success', offColor: 'secondary', disabled: false, size: 'sm', value: false };
   switchListare: any = { onColor: 'success', offColor: 'secondary', disabled: false, size: 'sm', value: false };
   agGrid;
   rowData;
   columnDefs = [
     { headerName: 'UID', field: 'UID', hide: true },
-    { headerName: 'COD PRODUS', field: 'COD_PRODUS', width: 120 },
-    { headerName: 'TAMBUR', field: 'NR_TAMBUR', width: 100, type: "numericColumn" },
-    { headerName: 'NUMAR', field: 'NR_BOBINA', width: 90, type: "numericColumn" },
-    { headerName: 'TURA', field: 'TURA', width: 90 },
-    { headerName: 'LATIME', field: 'LATIME', width: 100, type: "numericColumn", cellStyle: errStyle },
-    { headerName: 'LUNGIME', field: 'LUNGIME', width: 100, type: "numericColumn", cellStyle: errStyle },
-    { headerName: 'DIAM. INTERIOR', field: 'DIAM_INTERIOR', width: 130, type: "numericColumn", cellStyle: errStyle },
-    { headerName: 'DIAM. EXTERIOR', field: 'DIAM_EXTERIOR', width: 130, type: "numericColumn", cellStyle: errStyle },
-    { headerName: 'GREUTATE', field: 'GREUTATE', width: 100, type: "numericColumn", cellStyle: errStyle },
-    { headerName: 'DATA', field: 'DATA', width: 110 },
-    { headerName: 'ORA', field: 'TIME_OP', width: 110 }
+    { headerName: 'TAMBUR', field: 'NR_TAMBUR', width: 130, type: "numericColumn" },
+    { headerName: 'Bobina', field: 'NR_BOBINA', width: 130, type: "numericColumn" },
+    { headerName: 'LATIME', field: 'LATIME', width: 130, type: "numericColumn", cellStyle: errStyle },
+    { headerName: 'LUNGIME', field: 'LUNGIME', width: 130, type: "numericColumn", cellStyle: errStyle },
+    { headerName: 'DIAMETRU INTERIOR', field: 'DIAM_INTERIOR', width: 150, type: "numericColumn", hide: true },
+    { headerName: 'DIAMETRU PLANIFICAT', field: 'DIAM_EXTERIOR', width: 150, type: "numericColumn" },
+    { headerName: 'DIAMETRU CITIT', field: 'DIAM_TRADUCTOR', width: 150, type: "numericColumn", cellClass: errDiam },
+    { headerName: 'GREUTATE(kg)', field: 'GREUTATE', width: 130, type: "numericColumn", cellStyle: errStyle },
+
   ];
 
   constructor(
@@ -63,11 +62,13 @@ export class CantarireGridProduseComponent implements OnDestroy {
         }
       })
     this.subscriptions.add(subsDisabled);
+
     const sub1 = this.cantarireService.formDetalii$
       .subscribe(frm => {
         this.formDetalii = frm;
       })
     this.subscriptions.add(sub1);
+
 
     const sub2 = this.cantarireService.selectedBobina$.subscribe(data => {
       if (data == null) {
@@ -76,14 +77,13 @@ export class CantarireGridProduseComponent implements OnDestroy {
       } else {
         this.switchCantarire["disabled"] = false;
         this.switchListare["disabled"] = false;
-        this.showAlert = Number(data["CANT_RAMASA"]) <= 2000
       }
     })
     this.subscriptions.add(sub2);
-    const sub3 = this.cantarireService.selectedTambur$.subscribe(data => {
-      this.rowData = this.cantarireService.getProduseCantarite();
-    });
-    this.subscriptions.add(sub3);
+    // const sub3 = this.cantarireService.selectedBobina$.subscribe(data => {
+    //   if (data) this.rowData = this.cantarireService.getProduseCantarite();
+    // });
+    // this.subscriptions.add(sub3);
 
     const sub4 = this.cantarireService.loadDataGridProduse$.subscribe(data => {
       if (data == true) this.rowData = this.cantarireService.getProduseCantarite();
@@ -118,6 +118,7 @@ export class CantarireGridProduseComponent implements OnDestroy {
   }
 
   cantarireAutomata(ev) {
+    if(this.formDetalii.controls) marjaDiametru=this.formDetalii.controls["MARJA"].value;
     if (ev != null) {
       if (ev == true) {
         this.alertService.clearAllMessage();
@@ -130,8 +131,20 @@ export class CantarireGridProduseComponent implements OnDestroy {
               this.switchCantarire.value = false;
               this.switchListare.value = false;
             }
-            if (traductoriData["CANTITATE"]) this.cantarireService.addRowCantarireAutomata(traductoriData["CANTITATE"]);
-            if (traductoriData["LUNGIMEA"]) this.formDetalii.controls["LUNGIME"].setValue(traductoriData["LUNGIMEA"]);
+            if (traductoriData["CANTITATE"]) {
+              if (this.lastTambur != 0) {
+                this.formDetalii.controls["TAMBUR"].setValue(this.lastTambur + 1);
+                this.lastTambur = 0;
+              }
+              this.cantarireService.addRowCantarireAutomata(traductoriData["CANTITATE"]);
+
+            }
+            if (traductoriData["LUNGIMEA"]) {
+              this.formDetalii.controls["LUNGIME"].setValue(traductoriData["LUNGIMEA"]);
+              this.lastTambur = this.formDetalii.controls["TAMBUR"].value;
+              //W             this.formDetalii.controls["TAMBUR"].setValue(maxTambur+1);
+              //             this.formDetalii.getValue()).controls["TAMBUR"].setValue(data.MAXTAMBUR))
+            }
             if (traductoriData["DIAMETRUL"]) this.formDetalii.controls["DIAMETRU"].setValue(traductoriData["DIAMETRUL"]);
 
           }
@@ -145,6 +158,7 @@ export class CantarireGridProduseComponent implements OnDestroy {
   }
 
   onEdit() {
+    if(this.formDetalii.controls) marjaDiametru=this.formDetalii.controls["MARJA"].value;
     if (this.rowNodeSelected) {
       this.cantarireService.editareaRowCantarire((this.rowNodeSelected.data)["UID"]).then(data => {
         this.editareService.openEditare(data, "modify")
@@ -155,6 +169,7 @@ export class CantarireGridProduseComponent implements OnDestroy {
   }
 
   onAdd() {//adaugare manuala
+    if(this.formDetalii.controls) marjaDiametru=this.formDetalii.controls["MARJA"].value;
     if (this.cantarireService.selectedBobina$.getValue() != null) {
       this.cantarireService.addRowCantarire(0).then(data => {
         this.editareService.openEditare(data, "add")
@@ -230,4 +245,16 @@ function errStyle(params) {
   } else {
     return { color: 'black', 'font-weight': 'normal' };
   }
+}
+
+function errDiam(params) {
+  const diamPlanificat = params["data"]["DIAM_EXTERIOR"];
+  const diametruTraductor = params["data"]["DIAM_TRADUCTOR"];
+  let limita_inf_Diametru = Number(diamPlanificat) - Number(marjaDiametru);
+  if (limita_inf_Diametru < 0) limita_inf_Diametru = 0;
+  const limita_sup_Diametru = Number(diamPlanificat) + Number(marjaDiametru);
+  if (diametruTraductor >= limita_inf_Diametru && diametruTraductor <= limita_sup_Diametru) {
+    return 'bg-transparent text-dark text-right';
+  }
+  return 'bg-danger text-white text-right';
 }

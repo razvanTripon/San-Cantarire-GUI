@@ -1,0 +1,384 @@
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.label+r.value" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{editMode=="modify" ? 'Editare Comanda' :'Adaugare Comanda'}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formComenzi" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+        <div class="input-group input-group-sm ml-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Sortiment</span>
+            </div>
+            <input ngbAutofocus #inputSortiment formControlName="COD_SORT" onfocus="this.select()"
+                [ngClass]="{'is-invalid': verifyValid('COD_SORT') }" class="form-control rounded"
+                [ngbTypeahead]="searchSortiment" placeholder="Selectati sortimentul"
+                (selectItem)="onselectSortiment($event)" [editable]="false"
+                [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+            <div class="input-group-prepend">
+                <button [disabled]="disableButtons" class="btn btn-default btn-outline-light" type="button"
+                    (click)="onAdvanceSearchSortiment(inputSortiment.value)">
+                    <i class="fa fa-search text-success" aria-hidden="true"></i>
+                </button>
+                <button [disabled]="disableButtons" class="btn btn-default btn-outline-light" type="button" (click)="onAddSortiment()">
+                    <i class="fa fa-plus text-primary" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <small *ngIf="verifyValid('COD_SORT')" class="text-danger"> Sortimentul este obligatoriu </small>
+        <div class="input-group">
+            <small class="form-text text-muted">{{labelSortiment}}</small>
+        </div>
+
+        <table class="table mt-0 table-bordered table-hover table-responsive-sm table-sm table-light">
+            <tbody [formGroup]="formReelGroup">
+                <tr [formGroup]="formReel_1">
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">REEL #1</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 180px;">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Latime</span>
+                            </div>
+                            <input min="0" 
+                                [ngClass]="{'is-invalid': (formReel_1.invalid && submit) || ( formReel_1.valid && formReel_2.valid && formReel_3.valid && formReel_4.valid && formReelGroup.invalid && submit)  }"
+                                onfocus="this.select()" formControlName="REELWIDTH_1" class="form-control"
+                                type="number">
+                            <div class="input-group-append">
+                                <span class="input-group-text">cm.</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 140px;">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gramaj</span>
+                            </div>
+                            <input min="0" oninput="validity.valid ||(value='');"
+                                [ngClass]="{'is-invalid': formReel_1.invalid && submit }" onfocus="this.select()"
+                                formControlName="REELSUBST_1" class="form-control" type="number">
+                            <!-- <div class="input-group-append">
+                                <span class="input-group-text">gr.</span>
+                            </div> -->
+                        </div>
+                    </td>
+                    <td style="width: 230px;">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Den</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_1.invalid && submit }" formControlName="REELDEN_1"
+                                class="form-control" type="text">
+                            <div class="input-group-append" (click)="updateText('REELDEN_1')" style="cursor:pointer;">
+                                <span class="input-group-text"><i class="fa fa-files-o text-primary"
+                                        aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Client</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_1.invalid && submit }" #inputClient_1
+                                formControlName="REELCLIENT_1" onfocus="this.select()" class="form-control rounded"
+                                [ngbTypeahead]="searchClient" (selectItem)="onselectClient($event,'REELCLIENT_1')"
+                                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-default btn-outline-light" type="button"
+                                    (click)="onAdvanceSearchClient(inputClient_1.value,'REELCLIENT_1')"> <i
+                                        class="fa fa-search text-success" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 25%">
+                        <div class="input-group input-group-sm">
+                            <small class="form-text text-muted ml-2">{{labelClient_1}}</small>
+                        </div>
+                    </td>
+                </tr>
+                <tr [formGroup]="formReel_2">
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">REEL #2</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Latime</span>
+                            </div>
+                            <input min="0"
+                                [ngClass]="{'is-invalid': (formReel_2.invalid && submit) || ( formReel_1.valid && formReel_2.valid && formReel_3.valid && formReel_4.valid && formReelGroup.invalid && submit)  }"
+                                onfocus="this.select()" formControlName="REELWIDTH_2" class="form-control"
+                                type="number">
+                            <div class="input-group-append">
+                                <span class="input-group-text">cm.</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gramaj</span>
+                            </div>
+                            <input min="0" oninput="validity.valid ||(value='');"
+                                [ngClass]="{'is-invalid': formReel_2.invalid && submit }" onfocus="this.select()"
+                                formControlName="REELSUBST_2" class="form-control" type="number">
+                            <!-- <div class="input-group-append">
+                                <span class="input-group-text">gr.</span>
+                            </div> -->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Den</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_2.invalid && submit }" formControlName="REELDEN_2"
+                                class="form-control" type="text">
+                            <div class="input-group-append" (click)="updateText('REELDEN_2')" style="cursor:pointer;">
+                                <span class="input-group-text"><i class="fa fa-files-o text-primary"
+                                        aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Client</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_2.invalid && submit }" #inputClient_2
+                                formControlName="REELCLIENT_2" onfocus="this.select()" class="form-control rounded"
+                                [ngbTypeahead]="searchClient" (selectItem)="onselectClient($event,'REELCLIENT_2')"
+                                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-default btn-outline-light" type="button"
+                                    (click)="onAdvanceSearchClient(inputClient_2.value,'REELCLIENT_2')"> <i
+                                        class="fa fa-search text-success" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <small class="form-text text-muted ml-2">{{labelClient_2}}</small>
+                        </div>
+                    </td>
+                </tr>
+                <tr [formGroup]="formReel_3">
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">REEL #3</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Latime</span>
+                            </div>
+                            <input min="0" 
+                                [ngClass]="{'is-invalid': (formReel_3.invalid && submit) || ( formReel_1.valid && formReel_2.valid && formReel_3.valid && formReel_4.valid && formReelGroup.invalid && submit)  }"
+                                onfocus="this.select()" formControlName="REELWIDTH_3" class="form-control"
+                                type="number">
+                            <div class="input-group-append">
+                                <span class="input-group-text">cm.</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gramaj</span>
+                            </div>
+                            <input min="0" oninput="validity.valid ||(value='');"
+                                [ngClass]="{'is-invalid': formReel_3.invalid && submit }" onfocus="this.select()"
+                                formControlName="REELSUBST_3" class="form-control" type="number">
+                            <!-- <div class="input-group-append">
+                                <span class="input-group-text">gr.</span>
+                            </div> -->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Den</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_3.invalid && submit }" formControlName="REELDEN_3"
+                                class="form-control" type="text">
+                            <div class="input-group-append" (click)="updateText('REELDEN_3')" style="cursor:pointer;">
+                                <span class="input-group-text"><i class="fa fa-files-o text-primary"
+                                        aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Client</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_3.invalid && submit }" #inputClient_3
+                                formControlName="REELCLIENT_3" onfocus="this.select()" class="form-control rounded"
+                                [ngbTypeahead]="searchClient" (selectItem)="onselectClient($event,'REELCLIENT_3')"
+                                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-default btn-outline-light" type="button"
+                                    (click)="onAdvanceSearchClient(inputClient_3.value,'REELCLIENT_3')"> <i
+                                        class="fa fa-search text-success" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <small class="form-text text-muted ml-3">{{labelClient_3}}</small>
+                        </div>
+                    </td>
+                </tr>
+                <tr [formGroup]="formReel_4">
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">REEL #4</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Latime</span>
+                            </div>
+                            <input min="0"
+                                [ngClass]="{'is-invalid': (formReel_4.invalid && submit) || ( formReel_1.valid && formReel_2.valid && formReel_3.valid && formReel_4.valid && formReelGroup.invalid && submit)  }"
+                                onfocus="this.select()" formControlName="REELWIDTH_4" class="form-control"
+                                type="number">
+                            <div class="input-group-append">
+                                <span class="input-group-text">cm.</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gramaj</span>
+                            </div>
+                            <input min="0" oninput="validity.valid ||(value='');"
+                                [ngClass]="{'is-invalid': formReel_4.invalid && submit }" onfocus="this.select()"
+                                formControlName="REELSUBST_4" class="form-control" type="number">
+                            <!-- <div class="input-group-append">
+                                <span class="input-group-text">gr.</span>
+                            </div> -->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Den</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_4.invalid && submit }" formControlName="REELDEN_4"
+                                class="form-control" type="text">
+                            <div class="input-group-append" (click)="updateText('REELDEN_4')" style="cursor:pointer;">
+                                <span class="input-group-text"><i class="fa fa-files-o text-primary"
+                                        aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Client</span>
+                            </div>
+                            <input [ngClass]="{'is-invalid': formReel_4.invalid && submit }" #inputClient_4
+                                formControlName="REELCLIENT_4" onfocus="this.select()" class="form-control rounded"
+                                [ngbTypeahead]="searchClient" (selectItem)="onselectClient($event,'REELCLIENT_4')"
+                                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-default btn-outline-light" type="button"
+                                    (click)="onAdvanceSearchClient(inputClient_4.value,'REELCLIENT_4')"> <i
+                                        class="fa fa-search text-success" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <small class="form-text text-muted ml-4">{{labelClient_4}}</small>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div class="form-group row">
+            <div class="input-group input-group-sm mt-2 col-3 ml-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Cantitate</span>
+                </div>
+                <input onfocus="this.select()" formControlName="CANTITATE"
+                    [ngClass]="{'is-invalid': verifyValid('CANTITATE') }" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">tone</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group input-group-sm mt-2 col-4 ml-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Diametrul interior</span>
+                </div>
+                <input onfocus="this.select()" [ngClass]="{'is-invalid': verifyValid('DIAM_INT') }"
+                    formControlName="DIAM_INT" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">cm.</span>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mt-2 col-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Diametrul exterior</span>
+                </div>
+                <input onfocus="this.select()" [ngClass]="{'is-invalid': verifyValid('DIAM_EXT') }"
+                    formControlName="DIAM_EXT" class="form-control" type="number">
+                <div class="input-group-append">
+                    <span class="input-group-text">cm.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="input-group input-group-sm mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">CLIENT</span>
+            </div>
+            <input #inputClient formControlName="CLIENT" onfocus="this.select()" class="form-control rounded"
+                [ngbTypeahead]="searchClient" placeholder="Selectati clientul" (selectItem)="onselectClient($event)"
+                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
+            <div class="input-group-prepend">
+                <button class="btn btn-default btn-outline-light" type="button"
+                    (click)="onAdvanceSearchClient(inputClient.value)"> <i class="fa fa-search text-success"
+                        aria-hidden="true"></i> </button>
+            </div>
+        </div> -->
+
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i>
+                Save</button>
+            <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"
+                    aria-hidden="true"></i> Cancel</button>
+        </div>
+    </form>
+</div>

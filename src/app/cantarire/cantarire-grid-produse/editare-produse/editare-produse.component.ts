@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdvanceSearchService } from 'src/app/_shared/advance-search/advance-search.service';
-import { NgbTypeaheadSelectItemEvent, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TypeAheadService } from 'src/app/_services/typeahead.service';
-import { Observable } from 'rxjs';
 import { CantarireService } from '../../cantarire.service';
 
 @Component({
@@ -14,7 +13,6 @@ import { CantarireService } from '../../cantarire.service';
 export class EditareProduseComponent implements OnInit {
   formOperare: FormGroup;
   submit = false;
-  labelClient = ""
   @Input('data') data;
   @Input('editMode') editMode;
 
@@ -27,14 +25,15 @@ export class EditareProduseComponent implements OnInit {
   ) {
     this.formOperare = this.fb.group({
       'UID': [""],
-      'PLAN': [""],
       'TAMBUR': [""],
       'BOBINA': [""],
-      'COD_PRODUS': [""],
-      'CLIENT': [{ value: "", label: "" }],
-      'LABEL_CLIENT': [{ value: "", label: "" }],
-      'NR_COMANDA': [""],
-      'NR_TAMBUR': [""],
+      'COD_SORT': [""],
+      'DEN_SORT': [""],
+      'COD_CEPI': [""],
+      'GRAMAJ':[""],
+      'CLIENT': [""],
+      'DEN_CLIENT': [""],
+      'NR_TAMBUR': [0, Validators.required],
       'NR_BOBINA': [0, Validators.required],
       'TURA': [""],
       'LATIME': [0],
@@ -43,15 +42,13 @@ export class EditareProduseComponent implements OnInit {
       'DIAM_EXTERIOR': [0, Validators.required],
       'GREUTATE': [0, Validators.required],
       'DATA': [""],
-      'TIME_OP': [""],
-      'CODOP': [""]
+      'CODOP': [""],
+      'DIAM_TRADUCTOR':[0]
     })
   }
 
   ngOnInit() {
     this.formOperare.setValue(this.data)
-    this.formOperare.controls["CLIENT"].setValue({ value: this.data["CLIENT"], label: this.data["LABEL_CLEINT"] })
-    this.labelClient = this.data["LABEL_CLIENT"]
   }
 
   onSubmit() {
@@ -68,21 +65,5 @@ export class EditareProduseComponent implements OnInit {
   dismiss() {
     this.onCancel();
   }
-  searchClient = (text$: Observable<string>) => {
-    return this.typeAheadService.search(text$, "/api/autocomplete/nomf");
-  }
-  onselectClient(ev: NgbTypeaheadSelectItemEvent) {
-    this.labelClient = ev.item.label;
-  }
-  onAdvanceSearchClient(valField) {
-    this.advanceSearchService
-      .searchModal('searchNomf', valField ? valField : "")
-      .then((dataRow: any) => {
-        if (dataRow) {
-          this.formOperare.controls['CLIENT'].setValue({ value: dataRow["COD"], label: dataRow["NUME"] });
-          this.labelClient = dataRow["NUME"];
-        }
-      })
-      .catch(err => { console.log(err) })
-  }
+
 }

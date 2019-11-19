@@ -1,97 +1,42 @@
 <div class="modal-header" ngbAutofocus>
   <h4 class="modal-title">
-    {{editMode==true ? 'Editare produs '+this.configDialog["codp"] :'Adaugare produs'}}</h4>
+    {{editMode==true ? 'Editare sortiment '+this.configDialog["codp"] :'Adaugare sortiment'}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <form [formGroup]="formNomp" (ngSubmit)="onSubmit()">
-    <div class="form-group row mb-2">
-      <div class="col-5 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">COD</span>
-        </div>
-        <input formControlName="CODP" class="form-control"
-          [ngClass]="{'is-invalid':formNomp.get('CODP').invalid &&  (formNomp.get('CODP').touched || submit)}">
+    <div class="col-5 input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Cod Sortiment</span>
       </div>
-      <div class="col-2 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">TIP</span>
-        </div>
-        <input formControlName="TIPMAT" class="form-control"
-          [ngClass]="{'is-invalid':formNomp.get('TIPMAT').invalid &&  (formNomp.get('TIPMAT').touched || submit)}">
-      </div>
-      <div class="col-5 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">SORTIMENT</span>
-        </div>
-        <input #parField formControlName="PAR" class="form-control">
-        <div class="input-group-append">
-          <button class="btn btn-default btn-outline-light" (click)="searchSortiment(parField.value)" type="button">
-            <i class="fa fa-search text-success" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-default btn-outline-light" (click)="deleteSortiment()" type="button">
-            <i class="fa fa-remove text-danger" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
+      <input formControlName="CODP" class="form-control"
+        [ngClass]="{'is-invalid':formNomp.get('CODP').invalid &&  (formNomp.get('CODP').touched || submit)}">
     </div>
     <div *ngIf="formNomp.get('CODP').invalid &&  (formNomp.get('CODP').touched || submit) " class="form-group row mb-2">
       <small class="text-danger form-text col-6"> Campul COD este obligatoriu </small>
     </div>
-    <div class="form-group row mb-2">
-      <div class="input-group input-group-sm mb-2 col-9">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Denumire</span>
-        </div>
-        <input formControlName="DENUMIRE" type="text" class="form-control" placeholder="Denumire produs"
-          [ngClass]="{'is-invalid':formNomp.get('DENUMIRE').invalid && (formNomp.get('DENUMIRE').touched || submit)}">
+    <div class="input-group input-group-sm mt-2 col-12">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Denumire Sortiment</span>
       </div>
-      <div class="input-group input-group-sm mb-2 col-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">C.P.S.A.</span>
-        </div>
-        <input formControlName="CPSA" type="text" class="form-control">
-      </div>
+      <input formControlName="DENUMIRE" type="text" class="form-control" 
+        [ngClass]="{'is-invalid':formNomp.get('DENUMIRE').invalid && (formNomp.get('DENUMIRE').touched || submit)}">
     </div>
     <small *ngIf="formNomp.get('DENUMIRE').invalid && (formNomp.get('DENUMIRE').touched ||submit)"
       class="text-danger form-text"> Campul DENUMIRE este obligatoriu </small>
-    <div class="form-group row mb-2">
-      <div class="col-4 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">UM</span>
-        </div>
-        <input formControlName="UM" class="form-control">
+
+    <div class="input-group input-group-sm mt-2 col-5">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Cod CEPI</span>
       </div>
-      <div class="col-4 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">GRAMAJ</span>
-        </div>
-        <input onfocus="this.select()" formControlName="GRAMAJ" class="form-control">
-      </div>
-      <div class="col-4 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">LATIME</span>
-        </div>
-        <input onfocus="this.select()" formControlName="LATIME" class="form-control">
-      </div>
+      <input formControlName="CPSA"  [ngClass]="{'is-invalid':formNomp.get('CPSA').invalid && (formNomp.get('CPSA').touched || submit)}" type="number" class="form-control">
     </div>
-    <div class="form-group row mb-2">
-      <div class="col-6 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Diametru interior</span>
-        </div>
-        <input onfocus="this.select()" formControlName="DIAM_INTERIOR" class="form-control">
-      </div>
-      <div class="col-6 input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Diametru exterior</span>
-        </div>
-        <input onfocus="this.select()" formControlName="DIAM_EXTERIOR" class="form-control">
-      </div>
-    </div>
-    <div class="input-group input-group-sm mb-2">
+    <small *ngIf="formNomp.get('CPSA').invalid && (formNomp.get('CPSA').touched ||submit)"
+    class="text-danger form-text"> Campul Cod CEPI este obligatoriu </small>
+
+    <div class="input-group input-group-sm mt-2 col-12">
       <div class="input-group-prepend">
         <span class="input-group-text">Observatii</span>
       </div>

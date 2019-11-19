@@ -8,7 +8,7 @@ export class EditareCantarireProduseService {
         config.backdrop = 'static';
         config.keyboard = false;
     }
-    public openEditare(data: { UID: string, PLAN: string, TAMBUR: string, BOBINA: string, COD_PRODUS: string, CLIENT: string, NR_COMANDA: string, NR_TAMBUR: number, NR_BOBINA: number, TURA: string, LATIME: number, LUNGIME: number, DIAM_INTERIOR: number, DIAM_EXTERIOR: number, GREUTATE: number, DATA: string, TIME_OP: string, CODOP: string }, editMode: "add" | "modify"): Promise<any> {
+    public openEditare(data: any, editMode: "add" | "modify"): Promise<any> {
         const modalRef = this.modalService.open(EditareProduseComponent,{ size: 'lg' });
         modalRef.componentInstance.data = data;
         modalRef.componentInstance.editMode = editMode;

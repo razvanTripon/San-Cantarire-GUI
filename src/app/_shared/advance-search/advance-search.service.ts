@@ -6,21 +6,7 @@ import { AdvanceSearchComponent } from './advance-search.component';
 export class AdvanceSearchService {
     // loadDataServer$ = new Subject();
     configDialog;
-    configSearchNoml = {
-        title: "Cautare comanda/activitate",
-        coldef: [
-            { headerName: 'COD', field: 'COD', sortable: true, width: 140 },
-            { headerName: 'NUME', field: 'NUME', sortable: true, width: 250 },
-            { headerName: 'DATA LAN', field: 'DATA_LAN', sortable: true, width: 120 },
-            { headerName: 'DATA INCH', field: 'DATA_INCH', sortable: true, width: 120 },
-            { headerName: 'OBS', field: 'OBS', sortable: true, width: 250 }
-        ],
-        placeholderSearch: "Cautarea comanda",
-        gridSize: '250px',
-        dialogSize: 'lg',
-        api_server: "api/search/noml",
-        preloadRows: false
-    };
+
     configSearchNomp = {
         title: "Cautare produse",
         coldef: [
@@ -43,15 +29,9 @@ export class AdvanceSearchService {
     configSearchOnlySortiment = {
         title: "Cautare sortiment",
         coldef: [
-            { headerName: 'COD', field: 'CODP', sortable: true, width: 120 },
-            { headerName: 'DENUMIRE', field: 'DENUMIRE', sortable: true, width: 250 },
-            { headerName: 'TIP', field: 'TIPMAT', sortable: true, width: 60 },
-            { headerName: 'SORTIMENT', field: 'PAR', sortable: true, width: 100 },
-            { headerName: 'GRAMAJ', field: 'GRAMAJ', sortable: true, width: 100 },
-            { headerName: 'LATIME', field: 'LATIME', sortable: true, width: 100 },
-            { headerName: 'DIAM_INTERIOR', field: 'DIAM_INTERIOR', sortable: true, width: 140 },
-            { headerName: 'DIAM_EXTERIOR', field: 'DIAM_EXTERIOR', sortable: true, width: 140 },
-            { headerName: 'UM', field: 'UM', sortable: true, width: 80 }
+            { headerName: 'Cod Sortiment', field: 'CODP', sortable: true, width: 150 },
+            { headerName: 'Denumire', field: 'DENUMIRE', sortable: true, width: 280 },
+            { headerName: 'Cod CEPI', field: 'CPSA', sortable: true, width: 150 }
         ],
         placeholderSearch: "Cautarea dupa cod sau denumire",
         gridSize: '250px',
@@ -80,37 +60,27 @@ export class AdvanceSearchService {
         api_server: "api/search/nomf",
         preloadRows: false
     }
-    configSearchNomlByCLient = {
-        title: "Cautare comanda/activitate",
+    configSearchBobina = {
+        title: "Cautare bobina",
         coldef: [
-            { headerName: 'COD', field: 'COD', sortable: true, width: 140 },
-            { headerName: 'NUME', field: 'NUME', sortable: true, width: 250 },
-            { headerName: 'DATA LAN', field: 'DATA_LAN', sortable: true, width: 120 },
-            { headerName: 'DATA INCH', field: 'DATA_INCH', sortable: true, width: 120 },
-            { headerName: 'OBS', field: 'OBS', sortable: true, width: 250 }
+            { headerName: 'Data', field: 'DATA_LST', sortable: true, width: 95 },
+            { headerName: 'Bobina', field: 'NR_BOBINA', sortable: true, width: 70 },
+            { headerName: 'Sortiment', field: 'DEN_SORT', sortable: true, width: 100 },
+            { headerName: 'Cod CEPI', field: 'COD_CEPI', sortable: true, width: 80 },
+            { headerName: 'Gramaj', field: 'GRAMAJ', sortable: true, width: 70 },
+            { headerName: 'Latime', field: 'LATIME', sortable: true, width: 70 },
+            { headerName: 'Lungime', field: 'LUNGIME', sortable: true, width: 80 },
+            { headerName: 'Greutate', field: 'GREUTATE', sortable: true, width: 80 },
+            { headerName: 'Ø int', field: 'DIAM_INTERIOR', sortable: true, width: 70 },
+            { headerName: 'Ø ext', field: 'DIAM_EXTERIOR', sortable: true, width: 70 }
         ],
-        placeholderSearch: "Cautarea comanda aferenta partenerului selectat",
+        placeholderSearch: "Cautarea bobina",
         gridSize: '250px',
         dialogSize: 'lg',
-        api_server: "api/search/nomlClient",
-        preloadRows: true
+        api_server: "api/search/bobina",
+        preloadRows: false
     }
-    configSearchProdusByTambur = {
-        title: "Cautare produs aferent codului de sortiment si comenzii selectate",
-        coldef: [
-            { headerName: 'Data comenzii', field: 'DATA_LAN', sortable: true, width: 100 },
-            { headerName: 'Client', field: 'PARTENER', sortable: true, width: 120 },
-            { headerName: 'Cod produs', field: 'PRODUS', sortable: true, width: 120 },
-            { headerName: 'Denumire prod', field: 'DEN_PROD', sortable: true, width: 240 },
-            { headerName: 'Cant.', field: 'CANT', sortable: true, width: 100 },
-            { headerName: 'Comanda', field: 'COMANDA', sortable: true, width: 100 }
-        ],
-        placeholderSearch: "Cautarea produs",
-        gridSize: '350px',
-        dialogSize: 'lg',
-        api_server: "api/search/produsByTambur",
-        preloadRows: true
-    }
+
 
     constructor(private modalService: NgbModal) {
     }
@@ -120,9 +90,7 @@ export class AdvanceSearchService {
         if (type == "searchOnlySortiment") this.configDialog = this.configSearchOnlySortiment;
 
         if (type == "searchNomf") this.configDialog = this.configSearchNomf;
-        if (type == "searchNoml") this.configDialog = this.configSearchNoml;
-        if (type == "searchNomlByClient") this.configDialog = this.configSearchNomlByCLient;
-        if (type == "searchProdusByTambur") this.configDialog = this.configSearchProdusByTambur;
+        if (type == "searchBobina") this.configDialog = this.configSearchBobina;
         if (type == "searchNompSortiment") {
             const configSearchSortiment = Object.assign({}, this.configSearchNomp);
             configSearchSortiment["title"] = "Cautare sortiment produse";

@@ -3,6 +3,7 @@ import { AgGridNg2 } from 'ag-grid-angular';
 import { RowNode } from 'ag-grid-community';
 import { NomfService } from './nomf.service';
 import { Subscription } from 'rxjs';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nomf',
@@ -17,7 +18,6 @@ export class NomfComponent implements OnInit, OnDestroy {
   rowData;
   columnDefs = [
     { headerName: 'Cod Partener', field: 'COD', sortable: true, filter: true },
-    { headerName: 'Tip', field: 'TIP', sortable: true, filter: true, width: 100 },
     { headerName: 'Nume', field: 'NUME', sortable: true, filter: true },
     { headerName: 'Observatii', field: 'OBS', sortable: true, filter: true },
     { headerName: 'Str.', field: 'STR', sortable: true, filter: true, width: 150 },
@@ -31,7 +31,7 @@ export class NomfComponent implements OnInit, OnDestroy {
     { headerName: 'Fax', field: 'FAX', sortable: true, filter: true, width: 150 },
     { headerName: 'CAEN', field: 'CAEN', sortable: true, filter: true, width: 80 }
   ];
-  constructor(private nomfService: NomfService) { }
+  constructor(private nomfService: NomfService, private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
     this.subscription.add(
@@ -80,7 +80,6 @@ export class NomfComponent implements OnInit, OnDestroy {
   onSelectionChanged() {
     this.agGrid.api.getSelectedNodes().forEach((rowNode: RowNode) => {
       this.nomfService.rowSelectedNomf$.next(rowNode.data["COD"])
-      // this.planService.onRowSelectGridPlanificare(rowNode.data);
     })
   }
 
@@ -90,5 +89,8 @@ export class NomfComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+  onClose(){
+    this.activeModal.close()
   }
 }

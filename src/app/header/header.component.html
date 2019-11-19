@@ -1,37 +1,81 @@
-<nav class="navbar navbar-expand-md bg-secondary navbar-dark p-0">
+<nav *ngIf="showHeader" class="navbar navbar-expand-md bg-secondary navbar-dark p-0">
   <button (click)="toggleNavbar()" class="navbar-toggler" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
     <ul class="nav nav-pills mr-auto ">
-      <!-- navbar-nav mr-auto -->
-      <li class="nav-item">
-        <a class="nav-link text-white" [routerLink]="['/planificare']" [routerLinkActive]="'active'"><i
-            class="fa fa-stack-overflow" aria-hidden="true"></i> Planificare</a>
-      </li>
       <li class="nav-item">
         <a class="nav-link text-white" [routerLink]="['/cantarire']" [routerLinkActive]="'active'"><i
             class="fa fa-linode" aria-hidden="true"></i> Cantarire</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link text-white" href="#/cantarire" target="_blank" rel="noopener" > Test</a>
+      </li> -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-white" appDropDown #r="appDropDown">
           <i class="fa fa-building-o" aria-hidden="true"></i>
           Nomenclatoare
         </a>
         <div class="dropdown-menu" [ngClass]="{show: r.isOpen}">
-          <a class="dropdown-item" [routerLink]="['/parteneri']">Parteneri</a>
-          <a class="dropdown-item" [routerLink]="['/produse']">Produse</a>
-          <a class="dropdown-item" [routerLink]="['/lucrari']">Activitati/Lucrari</a>
+          <button (click)="openModalNomp()" class="dropdown-item" type="button">
+            <i class="fa fa-stack-overflow " aria-hidden="true"></i>
+            Sortimente
+          </button>
+          <button (click)="openModalNomf()" class="dropdown-item" type="button">
+            <i class="fa fa-users " aria-hidden="true"></i>
+            Parteneri
+          </button>
+
+
         </div>
       </li>
       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" appDropDown #rRapoarte="appDropDown">
+          <i class="fa fa-list text-info" aria-hidden="true"></i>
+          Rapoarte
+        </a>
+        <div class="dropdown-menu" [ngClass]="{show: rRapoarte.isOpen}">
+          <button (click)="runRap('raportDetaliat')" class="dropdown-item" type="button">
+            <i class="fa fa-file-text-o " aria-hidden="true"></i>
+            Raport detaliat de productie
+          </button>
+          <button (click)="runRap('raportSumar')" class="dropdown-item" type="button">
+            <i class="fa fa-list-ul " aria-hidden="true"></i>
+            Raport sumar de productie
+          </button>
+          <!-- <button (click)="runRap('notaPredare')" class="dropdown-item" type="button">
+            <i class="fa fa-file-archive-o " aria-hidden="true"></i>
+            Nota de predare
+          </button> -->
+          <button (click)="listareEtichManuala()" class="dropdown-item" type="button">
+            <i class="fa fa-tasks " aria-hidden="true"></i>
+            Listare eticheta manuala
+          </button>
+        </div>
+      </li>
+      <li class="nav-item dropdown" *ngIf="showUtilitare">
         <a class="nav-link dropdown-toggle text-white" appDropDown #rUtilitare="appDropDown">
           <i class="fa fa-yelp text-success" aria-hidden="true"></i>
           Utilitare
         </a>
         <div class="dropdown-menu" [ngClass]="{show: rUtilitare.isOpen}">
-          <a class="dropdown-item" [routerLink]="['/listareEticheta']">Listare eticheta</a>
-          <a class="dropdown-item" [routerLink]="['/backup']">Backup Now</a>
+          <button (click)="openConfigurari()" class="dropdown-item" type="button">
+            <i class="fa fa-cogs " aria-hidden="true"></i>
+            Setari tiparire eticheta
+          </button>
+          <button (click)="backUpNow()" class="dropdown-item" type="button">
+            <i class="fa fa-database " aria-hidden="true"></i>
+            Backup Now
+          </button>
+          <button (click)="sendToWMS()" class="dropdown-item" type="button">
+            <i class="fa fa-forward " aria-hidden="true"></i>
+            Export bobine - WMS
+          </button>
+          <button (click)="onUserManagement()" class="dropdown-item" type="button">
+            <i class="fa fa-user-plus " aria-hidden="true"></i>
+            Users management
+          </button>
+          <!-- <a class="dropdown-item" (click)="viewLogs()">Vizualizare Logs</a> -->
         </div>
       </li>
 
@@ -48,12 +92,12 @@
       </li> -->
     </ul>
     <a class="navbar-brand text-light"> {{auth.currentUser$ |async}}</a>
-    <ul class="nav nav-pills">
+    <!-- <ul class="nav nav-pills" >
       <li class="nav-item">
         <a class="nav-link text-white" (click)="onClick()" [routerLinkActive]="'active'"><i
             class="fa fa-user-plus text-info"></i> Users management</a>
       </li>
-    </ul>
+    </ul> -->
 
     <button (click)="logOut()" class="btn btn-danger btn-sm" type="button">Log Out</button>
   </div>

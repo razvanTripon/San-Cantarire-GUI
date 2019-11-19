@@ -17,11 +17,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     constructor(private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+        private alertService: AlertService) {
+        this.authenticationService.showHeader$.next(false);
+    }
 
     ngOnInit() {
         this.loginForm = new FormGroup({
-            'username': new FormControl(null, [Validators.required, Validators.email]),
+            'username': new FormControl(null, [Validators.required]),
             'password': new FormControl(null, [Validators.required])
         });
     }

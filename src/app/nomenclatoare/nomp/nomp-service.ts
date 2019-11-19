@@ -34,7 +34,7 @@ export class NompService {
             TAXE: "",
             CODAUX: "",
             OBS: "",
-            PAR: "",
+            PAR: "SORT",
             PRETDEVIZ: 0,
             PRETRECOM: 0,
             GRAMAJ: 0,

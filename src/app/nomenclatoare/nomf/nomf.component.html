@@ -1,16 +1,21 @@
-<app-navbar-close [title]="'Nomenclator parteneri'"></app-navbar-close>
-<app-meniu-nomf></app-meniu-nomf>
-<div style="height: 80vh">
-    <ag-grid-angular 
-        #agGrid 
-        style="width:99%; height: 99%; " 
-        class="ag-theme-balham"
-        [rowData]="rowData | async"
-        [columnDefs]="columnDefs" 
-        rowSelection="single" 
-        (rowDataChanged)="onRowDataChanged()"
-        (filterChanged)="onFilterChanged()"
-        (selectionChanged)="onSelectionChanged()"
-        (gridReady)="onGridReady()">
-    </ag-grid-angular>
+<div class="modal-header" ngbAutofocus>
+  <h4 class="modal-title">
+    Nomenclator parteneri</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onClose()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
+<div class="modal-body">
+  <app-meniu-nomf></app-meniu-nomf>
+  <div style="height: 60vh">
+    <ag-grid-angular #agGrid style="width:99%; height: 99%; " class="ag-theme-balham" [rowData]="rowData | async"
+      [columnDefs]="columnDefs" rowSelection="single" (rowDataChanged)="onRowDataChanged()"
+      (filterChanged)="onFilterChanged()" (selectionChanged)="onSelectionChanged()" (gridReady)="onGridReady()">
+    </ag-grid-angular>
+  </div>
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="onClose()"><i class="fa fa-times"
+      aria-hidden="true"></i>
+    Close</button>
+</div> -->

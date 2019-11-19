@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { NompService } from './nomp-service';
 import { RowNode } from 'ag-grid-community';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nomp',
@@ -15,18 +16,12 @@ export class NompComponent implements OnInit,OnDestroy {
   @ViewChild('agGrid', { static: true }) agGrid: AgGridNg2;
   rowData;
   columnDefs = [
-    { headerName: 'Cod produs', field: 'CODP', sortable: true, filter: true },
-    { headerName: 'Tip', field: 'TIPMAT', sortable: true, filter: true, width:80 },
-    { headerName: 'Sortiment', field: 'PAR', sortable: true, filter: true, width:100 },
+    { headerName: 'Cod sortiment', field: 'CODP', sortable: true, filter: true },
     { headerName: 'Denumire', field: 'DENUMIRE', sortable: true, filter: true },
-    { headerName: 'Um', field: 'UM', sortable: true, filter: true,width:80 },
-    { headerName: 'Gramaj', field: 'GRAMAJ', sortable: true, filter: true },
-    { headerName: 'Latime', field: 'LATIME', sortable: true, filter: true, width:150 },
-    { headerName: 'Diam. Interior', field: 'DIAM_INTERIOR', sortable: true, filter: true,width:150 },
-    { headerName: 'Diam. Exterior', field: 'DIAM_EXTERIOR', sortable: true, filter: true, width: 150 },
-    { headerName: 'OBS.', field: 'OBS', sortable: true, filter: true,width:150 }
+    { headerName: 'Cod CEPI', field: 'CPSA', sortable: true, filter: true, width: 150 },
+    { headerName: 'OBS.', field: 'OBS', sortable: true, filter: true,width:250 }
   ];
-  constructor(private nompService: NompService) { }
+  constructor(private nompService: NompService, private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
     this.agGrid.getRowStyle= function(params) {
@@ -84,5 +79,8 @@ export class NompComponent implements OnInit,OnDestroy {
   onGridReady(){
     this.nompService.loadGridNomp$.next(true);
   }
-
+ 
+  onClose(){
+    this.activeModal.close()
+  }
 }

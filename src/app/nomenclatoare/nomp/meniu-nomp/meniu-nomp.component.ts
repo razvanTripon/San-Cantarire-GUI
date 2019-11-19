@@ -35,7 +35,7 @@ export class MeniuNompComponent {
   onDelete() {
     const cod = this.nompService.rowSelectedNomp$.getValue();
     if (cod != null) {
-      this.confirmationDialogService.confirm('Va rugam sa confirmati..', 'Doriti sa stergeti randul selectat ?')
+      this.confirmationDialogService.confirm('Va rugam sa confirmati..', 'Doriti sa stergeti randul selectat ?','OK',"Cancel","lg")
         .then((confirmed) => {
           if (confirmed) {
             this.nompService.deleteRow(cod)

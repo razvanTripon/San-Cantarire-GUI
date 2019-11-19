@@ -1,0 +1,123 @@
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header">
+  <h4 class="modal-title">Listare eticheta manuala</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formList" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <div class="input-group row input-group-sm mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Numar bobina</span>
+        </div>
+        <input #inputBobina ngbAutofocus onfocus="this.select()" formControlName="NR_BOBINA" class="form-control"
+          type="number"
+          [ngClass]="{'is-invalid':formList.get('NR_BOBINA').invalid &&  (formList.get('NR_BOBINA').touched || submit)}">
+        <div class="input-group-prepend">
+          <button class="btn btn-default btn-outline-light" type="button"
+            (click)="onAdvanceSearchBobina(inputBobina.value)"> <i class="fa fa-search text-success"
+              aria-hidden="true"></i> </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-12 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Denumire Sortiment</span>
+        </div>
+        <input onfocus="this.select()" formControlName="DEN_SORT" class="form-control" type="text">
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Cod CEPI</span>
+        </div>
+        <input onfocus="this.select()" formControlName="COD_CEPI" class="form-control" type="number">
+      </div>
+    </div>
+
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Gramaj</span>
+        </div>
+        <input onfocus="this.select()" formControlName="GRAMAJ" class="form-control" type="number">
+      </div>
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Greutate</span>
+        </div>
+        <input onfocus="this.select()" formControlName="GREUTATE" class="form-control" type="number">
+        <div class="input-group-append">
+          <span class="input-group-text">kg</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Lungime</span>
+        </div>
+        <input onfocus="this.select()" formControlName="LUNGIME" class="form-control" type="number">
+        <div class="input-group-append">
+          <span class="input-group-text">m</span>
+        </div>
+      </div>
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Latime</span>
+        </div>
+        <input onfocus="this.select()" formControlName="LATIME" class="form-control" type="number"
+          [ngClass]="{'is-invalid':formList.get('LATIME').invalid &&  (formList.get('LATIME').touched || submit)}">
+        <div class="input-group-append">
+          <span class="input-group-text">m</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Diametru interior</span>
+        </div>
+        <input onfocus="this.select()" formControlName="DIAM_INTERIOR" class="form-control" type="number">
+        <div class="input-group-append">
+          <span class="input-group-text">cm</span>
+        </div>
+      </div>
+      <div class="col-6 input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Diametru exterior</span>
+        </div>
+        <input onfocus="this.select()" formControlName="DIAM_EXTERIOR" class="form-control" type="number">
+        <div class="input-group-append">
+          <span class="input-group-text">cm</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-6  input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Data</span>
+        </div>
+        <input (click)="data_lst.toggle()" formControlName="DATA_LST" type="button" class="form-control" ngbDatepicker
+          #data_lst="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="data_lst.toggle()" type="button">
+            <i class="fa fa-calendar"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i>
+        Save</button>
+      <button type="button" class="btn btn-outline-danger" (click)="onCancel()"><i class="fa fa-ban"
+          aria-hidden="true"></i> Cancel</button>
+    </div>
+  </form>
+</div>

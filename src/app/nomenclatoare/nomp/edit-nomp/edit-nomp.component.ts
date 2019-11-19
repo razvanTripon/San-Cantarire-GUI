@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { nompModel } from '../nomp.model';
 import { NompService } from '../nomp-service';
-import { AdvanceSearchService } from 'src/app/_shared/advance-search/advance-search.service';
 
 @Component({
   selector: 'app-edit-nomp',
@@ -18,7 +17,6 @@ export class EditNompComponent implements OnInit {
   submit = false;
 
   constructor(
-    private advanceSearchService: AdvanceSearchService,
     private activeModal: NgbActiveModal,
     private nompService: NompService,
     private fb: FormBuilder,
@@ -27,24 +25,36 @@ export class EditNompComponent implements OnInit {
     this.formNomp = this.fb.group({
       'CODP': ["", Validators.required],
       'TIPMAT': [""],
-      'PAR': [{ value: "", disabled: true }],
+      'PAR': ["SORT"],
       'DENUMIRE': ["", Validators.required],
       'UM': [""],
+      'PAD':[0],
+      'MONEDA':[""],
+      'PRET':[""],
+      'TAXE':[""],
+      'CODAUX':[""],
+      'PRETDEVIZ':[0],
+      'PRETRECOM':[0],
       'GRAMAJ': [0],
       'LATIME': [0],
       'DIAM_INTERIOR': [0],
       'DIAM_EXTERIOR': [0],
-      'OBS': [],
-      'CPSA':[],
+      'OBS': [""],
+      'CPSA':["",this.validatorNumber],
+      'CONT':[""],
+      'CONC_ALCOOL':[0],
+      'GRAMAJ_BRUT':[0],
+      'CODURI':[""],
+      'RETETAR':[""],
+      'MARCA':[""],
       'CODP_OLD':[""]
     })
   }
 
   ngOnInit() {
-    //if(this.editMode) this.formNomp.controls["CODP"].disable();
     this.nompService.getRowEditare(this.configDialog["codp"]).then((rowData: nompModel) => {
       for (let key in this.formNomp.controls) {
-        if (rowData.hasOwnProperty(key)) {
+        if (rowData.hasOwnProperty(key) && rowData[key]!=null) {
           this.formNomp.controls[key].setValue(rowData[key]);
         }
         if (this.configDialog["fixedData"].hasOwnProperty(key)) {
@@ -78,19 +88,11 @@ export class EditNompComponent implements OnInit {
     this.formNomp.reset();
     this.activeModal.close();
   }
-
-  searchSortiment(valField) {
-    this.advanceSearchService
-      .searchModal('searchNompSortiment', valField ? valField : "")
-      .then((dataRow: any) => {
-        if (dataRow) {
-          this.formNomp.controls['PAR'].setValue(dataRow["CODP"]);
-        }
-      })
-      .catch(err => { console.log(err) })
-  }
-
-  deleteSortiment() {
-    this.formNomp.controls['PAR'].setValue("");
+  
+  validatorNumber(controler: FormControl): { [s: string]: boolean } {
+    if (controler.value) {
+      if (controler.value != 0 && controler.value > 0) return null;
+    }
+    return { err: true }
   }
 }

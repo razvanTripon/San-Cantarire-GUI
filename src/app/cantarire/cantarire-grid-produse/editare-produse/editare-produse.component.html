@@ -1,7 +1,3 @@
-<ng-template #rt let-r="result" let-t="term">
-    <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>
-</ng-template>
-
 <div class="modal-header" >
     <h4 class="modal-title">
         {{editMode=="modify" ? 'Editare produs cantarit' :'Adaugare cantarire manuala produs'}} </h4>
@@ -60,7 +56,7 @@
             </div>
             <div class="col-6 input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Diametru exterior</span>
+                    <span class="input-group-text">Diametru exterior planificat</span>
                 </div>
                 <input onfocus="this.select()" formControlName="DIAM_EXTERIOR" class="form-control" type="number">
                 <div class="input-group-append">
@@ -68,20 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="input-group input-group-sm mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text">CLIENT</span>
-            </div>
-            <input #inputClient formControlName="CLIENT" onfocus="this.select()" class="form-control rounded"
-                [ngbTypeahead]="searchClient" placeholder="Selectati clientul" (selectItem)="onselectClient($event)"
-                [editable]="false" [inputFormatter]="typeAheadService.formatter" [resultTemplate]="rt">
-            <div class="input-group-prepend">
-                <button class="btn btn-default btn-outline-light" type="button"
-                    (click)="onAdvanceSearchClient(inputClient.value)"> <i class="fa fa-search text-success"
-                        aria-hidden="true"></i> </button>
-            </div>
-        </div>
-        <small class="form-text text-muted ml-2">{{labelClient}}</small>
+
         <div class="modal-footer">
             <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i>
                 Save</button>

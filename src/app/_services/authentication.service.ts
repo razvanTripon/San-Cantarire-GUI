@@ -6,6 +6,8 @@ import { map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+    public showHeader$ = new BehaviorSubject<boolean>(null);
+    
     public currentUser$ = new BehaviorSubject<string>(null);
     public FACCES$ = new BehaviorSubject<number>(null);
     constructor(private http: HttpClient, private router: Router) { }
@@ -15,8 +17,9 @@ export class AuthenticationService {
                 if (dataServer.auth) {
                     this.currentUser$.next(username);
                     this.FACCES$.next(dataServer["FACCES"]) 
-                    this.setSessionStorage()
+                    this.setlocalStorage()
                     this.router.navigate(['home']);
+                    this.showHeader$.next(true);
                     return "ok";
                 }
                 if (dataServer.errMessage) {
@@ -35,21 +38,22 @@ export class AuthenticationService {
     }
     logout() {
         this.currentUser$.next(null);
-        sessionStorage.removeItem("loggedUser");
+        localStorage.removeItem("loggedUser");
         this.router.navigate(['login']);
     }
-    setSessionStorage() {
-        sessionStorage.setItem("loggedUser", JSON.stringify({ user: this.getCurrentUserValue(), lastLoggin: new Date(), nivelAcces: this.FACCES$.getValue()}));
+    setlocalStorage() {
+        localStorage.setItem("loggedUser", JSON.stringify({ user: this.getCurrentUserValue(), lastLoggin: new Date(), nivelAcces: this.FACCES$.getValue()}));
     }
     isLoggedIn(): Observable<boolean> {
-        let lastLog = sessionStorage.getItem("loggedUser");
+        let lastLog = localStorage.getItem("loggedUser");
         if (lastLog) {
             let lastLoggin = JSON.parse(lastLog);
             this.currentUser$.next(lastLoggin.user);
             this.FACCES$.next(lastLoggin.nivelAcces)
             let minutesDif = Math.round(new Date().getTime() - new Date(lastLoggin.lastLoggin).getTime() / 60000);
             // if (minutesDif <= 480) {
-            this.setSessionStorage();
+            this.setlocalStorage();
+            this.showHeader$.next(true);
             return of(true);
             // }
         }
