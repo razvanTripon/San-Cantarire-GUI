@@ -39,4 +39,8 @@ export class ListareManualaEtichetaService {
       window.URL.revokeObjectURL(link.href);
     })).toPromise();
   }
+  printCustomEticheta(obj: {}){
+    return this.getDataServer('/api/printCustomEticheta', obj);
+  }
+
 }

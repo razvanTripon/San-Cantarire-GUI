@@ -46,7 +46,7 @@ export class ListareManualaEtichetaComponent {
     const formObj = this.formList.getRawValue();
     //formObj["COD_PRODUS"]= typeof formObj["COD_PRODUS"]=="object" ? formObj["COD_PRODUS"]["value"] : formObj["COD_PRODUS"];
     formObj["DATA_LST"] = this.helper.getJavascriptDate(formObj["DATA_LST"]);
-    this.listareEtichetaService.viewCustomEticheta(formObj);
+    this.listareEtichetaService.printCustomEticheta(formObj);
     this.onCancel();
   }
 

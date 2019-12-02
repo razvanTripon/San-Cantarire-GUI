@@ -30,20 +30,20 @@ export class EditareProduseComponent implements OnInit {
       'COD_SORT': [""],
       'DEN_SORT': [""],
       'COD_CEPI': [""],
-      'GRAMAJ':[""],
+      'GRAMAJ': [""],
       'CLIENT': [""],
       'DEN_CLIENT': [""],
       'NR_TAMBUR': [0, Validators.required],
       'NR_BOBINA': [0, Validators.required],
       'TURA': [""],
-      'LATIME': [0],
+      'LATIME': [0,Validators.required],
       'LUNGIME': [0, Validators.required],
-      'DIAM_INTERIOR': [""],
+      'DIAM_INTERIOR': [10,Validators.required],
       'DIAM_EXTERIOR': [0, Validators.required],
       'GREUTATE': [0, Validators.required],
       'DATA': [""],
       'CODOP': [""],
-      'DIAM_TRADUCTOR':[0]
+      'DIAM_TRADUCTOR': [0]
     })
   }
 
@@ -52,9 +52,10 @@ export class EditareProduseComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.formOperare.invalid) return;
     this.cantarireService.saveRowCantarire(this.formOperare.getRawValue(), this.editMode).then(
-      dataServer=>{
-          this.activeModal.close();
+      dataServer => {
+        this.activeModal.close();
       }
     )
   }

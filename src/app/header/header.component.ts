@@ -7,13 +7,11 @@ import { ModalNomfService } from '../nomenclatoare/nomf/modal-nomf.service';
 import { FilterDateTimeService } from '../_shared/filter-date-time/filter-date-time.service';
 import { RapoarteService } from '../rapoarte/rapoarte.service';
 import { ModalEtichetaManualaService } from '../rapoarte/listare-manuala-eticheta/modal-eticheta-manuala.service';
-import { ModalViewLogsService } from '../view-logs/modal-view-logs.service';
 import { EditSetariCantarireService } from '../utilitare/edit-setari-cantarire/edit-setari-cantarire.service';
 import { BackupService } from '../utilitare/backup/backup.service';
 import { Subscription } from 'rxjs';
 import { ModalBobineWMSService } from '../utilitare/expot-wms/modal-bobine-wms.service';
-import { HttpClient } from '@angular/common/http';
-import { SetariGeneraleService } from '../_services/setari-generale.service';
+import { ModalViewLogsService } from '../utilitare/view-logs/modal-view-logs.service';
 
 @Component({
   selector: 'app-header',
@@ -89,7 +87,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   backUpNow() {
     this.alertService.emitAlert({
       type: "info",
-      message: `A fost lansat serviciul de backup. La finalizarea salvarii si sincronizarii datelor in Cloud veti fi notificat. Salvarea dureaza aporximatim 1 minut.`,
+      message: `A fost lansat serviciul de backup. La finalizarea salvarii si sincronizarii datelor in Cloud veti fi notificat. Salvarea dureaza aproximativ 1 minut.`,
       time: 8000,
       size: "w-50"
     })

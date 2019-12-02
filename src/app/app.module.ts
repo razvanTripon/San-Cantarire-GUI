@@ -43,8 +43,6 @@ import { ModalNompService } from './nomenclatoare/nomp/modal-nomp.service';
 import { ModalNomfService } from './nomenclatoare/nomf/modal-nomf.service';
 import { ListareManualaEtichetaComponent } from './rapoarte/listare-manuala-eticheta/listare-manuala-eticheta.component';
 import { ModalEtichetaManualaService } from './rapoarte/listare-manuala-eticheta/modal-eticheta-manuala.service';
-import { ViewLogsComponent } from './view-logs/view-logs.component';
-import { ModalViewLogsService } from './view-logs/modal-view-logs.service';
 import { EditSetariCantarireComponent } from './utilitare/edit-setari-cantarire/edit-setari-cantarire.component';
 import { EditSetariCantarireService } from './utilitare/edit-setari-cantarire/edit-setari-cantarire.service';
 import { UsersManagementComponent } from './utilitare/users-management/users-management.component';
@@ -53,6 +51,9 @@ import { MeniuUsersComponent } from './utilitare/users-management/meniu-users/me
 import { EditUserService } from './utilitare/users-management/edit-user/edit-user.service';
 import { ExpotWMSComponent } from './utilitare/expot-wms/expot-wms.component';
 import { ModalBobineWMSService } from './utilitare/expot-wms/modal-bobine-wms.service';
+import { ViewLogsComponent } from './utilitare/view-logs/view-logs.component';
+import { ModalViewLogsService } from './utilitare/view-logs/modal-view-logs.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { ModalBobineWMSService } from './utilitare/expot-wms/modal-bobine-wms.se
     NgbDatepickerModule,
     NgbAlertModule,
     NgbModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    NoopAnimationsModule,
   ],
   providers: [ConfirmationDialogService, AdvanceSearchService, EditNomfService, EditNompService, EditareCantarireProduseService, EditSetariCantarireService, EditUserService, FilterDateTimeService, EditComenziService, ModalNompService, ModalNomfService,ModalEtichetaManualaService,ModalViewLogsService,ModalBobineWMSService],
   bootstrap: [AppComponent],

@@ -10,8 +10,6 @@ import { EditComenziService } from './edit-comenzi/edit-comenzi.service';
   styleUrls: ['./comenzi.component.scss']
 })
 export class ComenziComponent implements OnInit {
-  titleSortiment = "";
-  titleCepi = ""
   titleDiamInt = "";
   titleDiamExt = ""
   titleCantPlan = "";
@@ -25,7 +23,7 @@ export class ComenziComponent implements OnInit {
   disableGridSelection;
   subscriptionNextBobina: Subscription;
   subscriptionLoadGrid: Subscription;
-  subscriptionUpdateGrid:Subscription;
+  subscriptionUpdateGrid: Subscription;
   bobine = [];
   index_bobina = 0;
   numberOfRows = 0;
@@ -37,10 +35,9 @@ export class ComenziComponent implements OnInit {
     { headerName: 'Gramaj', field: 'REELSUBST', width: 150 },
     { headerName: 'Client', field: 'DEN_CLIENT', width: 300 },
     { headerName: 'Sortiment', field: 'DEN_SORT', width: 150 },
+    { headerName: 'Cod CEPI', field: 'COD_CEPI', width: 80, type: "numericColumn" },
     { headerName: 'Cantitate(tone)', field: 'CANT', width: 150, type: "numericColumn" },
-    { headerName: 'COD_CEPI', field: 'COD_CEPI', width: 50, hide: true },
     { headerName: 'COD_SORT', field: 'COD_SORT', width: 50, hide: true },
-    { headerName: 'DEN_SORT', field: 'DEN_SORT', width: 50, hide: true },
     { headerName: 'DIAM_EXT', field: 'DIAM_EXT', width: 50, hide: true },
     { headerName: 'DIAM_INT', field: 'DIAM_INT', width: 50, hide: true },
     { headerName: 'UIDGENERAL', field: 'UIDGENERAL', width: 50, hide: true },
@@ -95,12 +92,6 @@ export class ComenziComponent implements OnInit {
           this.titleCantRamasa = "Cant Ramasa: " + data["CANT_RAMASA"];
           this.cantitateaRamasa = data["CANT_RAMASA"];
         }
-        if (data.hasOwnProperty("DEN_SORT")) {
-          this.titleSortiment = data["DEN_SORT"];
-        }
-        if (data.hasOwnProperty("COD_CEPI")) {
-          this.titleCepi = " Cod CEPI:" + data["COD_CEPI"];
-        }
         if (data.hasOwnProperty("DIAM_INT")) {
           this.titleDiamInt = "ØInt " + data["DIAM_INT"];
         }
@@ -141,8 +132,8 @@ export class ComenziComponent implements OnInit {
         this.selectNextBobina()
       }
     })
-    this.subscriptionUpdateGrid=this.cantarireService.updateGridComenzi$.subscribe(data=>{
-      if(data) this.silentLoadGrid();
+    this.subscriptionUpdateGrid = this.cantarireService.updateGridComenzi$.subscribe(data => {
+      if (data) this.silentLoadGrid();
     })
   }
 
@@ -195,8 +186,8 @@ export class ComenziComponent implements OnInit {
   onGridReady(params) {
     this.agGrid = params.api;
     this.agGrid.hideOverlay();
- //   this.silentLoadGrid()
-   this.loadGrid();
+    //   this.silentLoadGrid()
+    this.loadGrid();
   }
 
   ngOnDestroy() {

@@ -131,7 +131,6 @@ export class CantarireService {
         cloneRow["operatie"] = operatie;
 
         if (cloneRow.hasOwnProperty("TAMBUR")) this.setFormDetalii("TAMBUR", cloneRow["NR_TAMBUR"]);
-
         // if (typeof cloneRow["CLIENT"] == 'object' && cloneRow["CLIENT"] != null) cloneRow["CLIENT"] = cloneRow["CLIENT"]["value"];
         return this.getServer('/api/cantarire/saveRowCantarire', cloneRow)
             .then((dataServer) => {
@@ -199,35 +198,40 @@ export class CantarireService {
         return {
             UID: this.helper.getUID(),
             DATA: "1900-01-01",
-            COD_SORT: { value: "", label: "" },
-            DEN_SORT: "",
-            COD_CEPI: "",
             formReelGroup: {
                 formReel_1: {
+                    REELSORT_1: { value: "", label: "" },
+                    REELDEN_1: "",
+                    REELCEPI_1:"",
                     REELWIDTH_1: 0,
                     REELSUBST_1: 0,
-                    REELDEN_1: 0,
                     REELCLIENT_1: "",
                     LABEL_CLIENT_1: ""
                 },
                 formReel_2: {
+                    REELSORT_2: { value: "", label: "" },
+                    REELDEN_2: "",
+                    REELCEPI_2:"",
                     REELWIDTH_2: 0,
                     REELSUBST_2: 0,
-                    REELDEN_2: 0,
                     REELCLIENT_2: "",
                     LABEL_CLIENT_2: ""
                 },
                 formReel_3: {
+                    REELSORT_3: { value: "", label: "" },
+                    REELDEN_3: "",
+                    REELCEPI_3:"",
                     REELWIDTH_3: 0,
                     REELSUBST_3: 0,
-                    REELDEN_3: 0,
                     REELCLIENT_3: "",
                     LABEL_CLIENT_3: ""
                 },
                 formReel_4: {
+                    REELSORT_4: { value: "", label: "" },
+                    REELDEN_4: "",
+                    REELCEPI_4:"",
                     REELWIDTH_4: 0,
                     REELSUBST_4: 0,
-                    REELDEN_4: 0,
                     REELCLIENT_4: "",
                     LABEL_CLIENT_4: ""
                 }
@@ -244,21 +248,27 @@ export class CantarireService {
         data: {
             UID: string,
             DATA: string,
-            COD_SORT: string,
-            DEN_SORT: string,
-            COD_CEPI: string,
+
+            REELSORT_1: string,
+            REELCEPI_1: string,
             REELWIDTH_1: number,
             REELSUBST_1: number,
             REELDEN_1: number,
             REELCLIENT_1: string,
+            REELSORT_2: string,
+            REELCEPI_2: string,
             REELWIDTH_2: number,
             REELSUBST_2: number,
             REELDEN_2: number,
             REELCLIENT_2: string,
+            REELSORT_3: string,
+            REELCEPI_3: string,
             REELWIDTH_3: number,
             REELSUBST_3: number,
             REELDEN_3: number,
             REELCLIENT_3: string,
+            REELSORT_4: string,
+            REELCEPI_4: string,
             REELWIDTH_4: number,
             REELSUBST_4: number,
             REELDEN_4: number,
@@ -269,8 +279,14 @@ export class CantarireService {
         }, operatie: "add" | "modify"): Promise<string> {
         const cloneRow = Object.assign({}, data)
         cloneRow["operatie"] = operatie;
-        if (typeof cloneRow["CLIENT"] == 'object' && cloneRow["CLIENT"] != null) cloneRow["CLIENT"] = cloneRow["CLIENT"]["value"];
-        if (typeof cloneRow["COD_SORT"] == 'object' && cloneRow["COD_SORT"] != null) cloneRow["COD_SORT"] = cloneRow["COD_SORT"]["value"];
+        if (typeof cloneRow["REELCLIENT_1"] == 'object' && cloneRow["REELCLIENT_1"] != null) cloneRow["REELCLIENT_1"] = cloneRow["REELCLIENT_1"]["value"];
+        if (typeof cloneRow["REELCLIENT_2"] == 'object' && cloneRow["REELCLIENT_2"] != null) cloneRow["REELCLIENT_2"] = cloneRow["REELCLIENT_2"]["value"];
+        if (typeof cloneRow["REELCLIENT_3"] == 'object' && cloneRow["REELCLIENT_3"] != null) cloneRow["REELCLIENT_3"] = cloneRow["REELCLIENT_3"]["value"];
+        if (typeof cloneRow["REELCLIENT_4"] == 'object' && cloneRow["REELCLIENT_4"] != null) cloneRow["REELCLIENT_4"] = cloneRow["REELCLIENT_4"]["value"];
+        if (typeof cloneRow["REELSORT_1"] == 'object' && cloneRow["REELSORT_1"] != null) cloneRow["REELSORT_1"] = cloneRow["REELSORT_1"]["value"];
+        if (typeof cloneRow["REELSORT_2"] == 'object' && cloneRow["REELSORT_2"] != null) cloneRow["REELSORT_2"] = cloneRow["REELSORT_2"]["value"];
+        if (typeof cloneRow["REELSORT_3"] == 'object' && cloneRow["REELSORT_3"] != null) cloneRow["REELSORT_3"] = cloneRow["REELSORT_3"]["value"];
+        if (typeof cloneRow["REELSORT_4"] == 'object' && cloneRow["REELSORT_4"] != null) cloneRow["REELSORT_4"] = cloneRow["REELSORT_4"]["value"];
 
         return this.getServer('/api/planificare/saveComanda', cloneRow)
             .then((dataServer) => {

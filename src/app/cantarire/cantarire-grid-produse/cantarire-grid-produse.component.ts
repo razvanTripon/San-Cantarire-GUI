@@ -127,9 +127,17 @@ export class CantarireGridProduseComponent implements OnDestroy {
         this.subscriptionServer = this.sseService.getServerSentEvent('/api/traductori').subscribe(
           (traductoriData) => {
             if (traductoriData["err"]) {
+              this.alertService.clearAllMessage();
               this.alertService.emitAlert({ message: traductoriData["err"], type: "danger", time: 6000000 });
-              this.switchCantarire.value = false;
-              this.switchListare.value = false;
+              if(traductoriData["type"] && traductoriData["type"]=="stop"){
+                this.switchCantarire.value = false;
+                this.switchListare.value = false;
+              }
+              // else{
+
+              // }
+              // this.switchCantarire.value = false;
+              // this.switchListare.value = false;
             }
             if (traductoriData["CANTITATE"]) {
               if (this.lastTambur != 0) {

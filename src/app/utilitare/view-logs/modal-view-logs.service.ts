@@ -3,8 +3,9 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewLogsComponent } from './view-logs.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class ModalViewLogsService {
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
@@ -12,7 +13,7 @@ export class ModalViewLogsService {
     config.keyboard = false;
   }
   public openModalView(): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewLogsComponent, { size: 'xl' });
+    const modalRef = this.modalService.open(ViewLogsComponent, { size: 'xl', scrollable: true});
     return modalRef.result;
   }
 }
